@@ -1,0 +1,225 @@
+body { padding-top: 50px; }
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 120px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 120px;
+  background-color: #000;
+  color: #999;
+  padding-left:12px;
+}
+
+.footerLink {
+  color: #999;
+  display: inline;
+  padding-right:12px;
+}
+
+.footerLink:hover {
+  color: #FFF;
+}
+
+.head3 {
+    font-size: 1.75em;
+    font-weight: bold;
+    padding-top: 6px;
+    padding-bottom: 3px;
+}
+
+.head4 {
+    font-size: 1.5em;
+    font-weight: bold;
+    padding-top: 6px;
+    padding-bottom: 3px;
+}
+
+.head5 {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+/*  Extended Styles*/
+.accessory {
+    opacity: 0.5;
+}
+
+.tokenize {
+    opacity: 0.8;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.itemButton {
+
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.autocompleteItem {
+    cursor: pointer;
+    background-color: blue;
+}
+
+.apiResource {
+    color: #5f8ad8;
+}
+
+.Resource {
+    white-space: nowrap;
+}
+
+.itemLabel {
+    font-size: .80em;
+    font-weight: bold;
+    opacity: 0.5;
+}
+.itemLabelLinked {
+    font-size: .80em;
+    font-weight: bold;
+    opacity: 0.8;
+    text-decoration: underline;
+    color:blue;
+}
+
+.padBottom {
+    padding-bottom: 30px  !important;
+
+}
+.itemPadding {
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+}
+
+.fakelinkBlue {
+    color:#4b4bf5;
+    font-weight: bold;
+}
+.fakelink:hover {
+    cursor: pointer;
+}
+
+
+.footerButton {
+        height: 36px !important;
+}
+
+.medText {
+    font-size: .90em !important;
+}
+
+.middle {
+    vertical-align: middle !important;
+}
+.no-padding {
+    padding: 0px !important;
+}
+.noPaddingTopBottom {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
+
+.textInfo {
+    color:  navy;
+}
+.smallText {
+    font-size: .70em !important;
+}
+.textRevBold {
+    font-weight: bold  !important;
+    color:#f5f5f5  !important;
+}
+
+.wellWorker {
+    background: #0B3861; /*#CFDBE8;*/
+}
+
+.wellReviewer {
+    background: #666666 ;
+}
+
+.wellExpert {
+    background: #0B3B0B ;
+}
+
+.wrapText {
+    white-space: normal !important;
+    line-height: 110%;
+}
+
+
+/* Accordian */
+.list .item.item-accordion {
+  line-height: 38px;
+  padding-top: 0;
+  padding-bottom: 0;
+  transition: 0.09s all linear;
+}
+.list .item.item-accordion.ng-hide {
+  line-height: 0px;
+}
+.list .item.item-accordion.ng-hide-add,
+.list .item.item-accordion.ng-hide-remove {
+  display: block !important;
+}
+
+/* For Google Maps*/
+.scroll {
+    height: 100%;
+}
+ 
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+
+/* Widget Styling by Entity */
+/*ion positive*/
+}
+
+.bgDark {
+ background-color: #aaaaaa ;
+}
+
+.bgRoyal {
+ background-color: #E8E3F9;
+}
+
+.bgLight {
+ background-color: #efefef;
+}
+
+
+/*  Bootstrap spinning icons*/
+.glyphicon.spinning {
+    animation: spin 1.5s infinite linear;
+    -webkit-animation: spin2 1.5s infinite linear;
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
+}
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}

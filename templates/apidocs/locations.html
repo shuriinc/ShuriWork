@@ -1,0 +1,62 @@
+﻿<div ng-controller="ApiDocsCtrl as vm">
+    <div ng-include="'/templates/apidocs/apiNav.html'"></div>
+    <sspinner ng-if="!vm.loadComplete" text="Loading ..." padding="120"></sspinner>
+    <div ng-show="vm.loadComplete">
+
+        <div class="row">
+            <div class="col-md-9">
+                <h3>Locations</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10 nudge">
+                <br />
+                <table class="table table-condensed small">
+                    <thead>
+                        <tr>
+                            <th class="Resource">
+                                Resource
+                            </th>
+                            <th class="">
+                                Description
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="">
+                            <td class="Resource">
+                                <a href="">GET location</a>?Id=<span class="tokenize">[ id ]</span>
+                            </td>
+                            <td class="">
+                                Returns a fully hydrated<a href="/APIDocs/ShowProto" target="_blank">location</a>.
+                            </td>
+                        </tr>
+                        <tr class="">
+                            <td class="Resource">
+                                <a href="">POST locations</a>
+                                <div style="margin-left:30px;">
+                                    ?subscriptionId=<span class="tokenize">[ group id ]</span>
+                                </div>
+                           </td>
+                            <td class="">
+                                Create a new <a href="/APIDocs/ShowProto" target="_blank">location</a> in the collection requested or the user's private collection by default.
+                                If the location id is empty a create occurs, else an update to the existing record.
+                            </td>
+                        </tr>
+                         <tr class="">
+                            <td class="Resource">
+                                <a href="">DELETE location</a>
+                            </td>
+                            <td class="">
+                                Deletes an existing <a href="/APIDocs/ShowProto" target="_blank">location</a>.  The location and all of it's relationships are permanently deleted.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>

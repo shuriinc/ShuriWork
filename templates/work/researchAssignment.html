@@ -1,0 +1,143 @@
+﻿<div ng-controller="ResearchAssignmentCtrl as vm" ng-cloak>
+    <sspinner ng-if="!vm.showWork" text="{{vm.spinnerText}}" padding="120"></sspinner>
+    <div ng-if="vm.showWork">
+        <div class="row  bg-info itemPadding ">
+            <div class="col-xs-6 bold textInfo">
+                Research Assignment
+            </div>
+            <div class="col-xs-6 text-right fakelink">
+                <span ng-click="vm.openUrl('https://shuristoragemedia.blob.core.windows.net/public/researchAssignmentInstructions.pdf')"><i class="glyphicon glyphicon-question-sign"></i> Instructions</span>
+                <span ng-click="vm.openUrl('https://shuristoragemedia.blob.core.windows.net/public/researchAssignment.mp4')" style="white-space:nowrap;padding-left:8px;"><i class="glyphicon glyphicon-facetime-video"></i> Video</span>
+            </div>
+        </div>
+
+        <div ng-if="vm.isNotResearch" class="row itemPadding bg-danger">
+            <div class="col-xs-12 bold  text-center">
+                Marked:  Not Research
+            </div>
+        </div>
+        <div class="row itemPadding fakelink" ng-click="vm.openUrl(vm.rssItem.url)">
+            <div class="col-xs-9 {{vm.isSmallWidth ? ' bold' : ' head5'}}">
+                {{vm.rssItem.title}}
+            </div>
+            <div class="col-xs-3 text-right">
+                <div ng-if="!vm.org.imageUrl" class="head5" style="padding-top:8px;">{{vm.org.name}}</div>
+                <img ng-src="{{vm.org.imageUrl}}" ng-if="vm.org.imageUrl" height="36" />
+            </div>
+        </div>
+        <div class="row fakelink" style="padding-bottom:6px;" ng-click="vm.openUrl()">
+            <div class="col-xs-12" ng-bind-html="vm.description">
+            </div>
+        </div>
+        <div class="row" style="padding-bottom:16px;" ng-click="vm.openUrl()">
+            <div class="col-xs-9 medText">
+                <a href="{{vm.rssItem.link}}" target="workWindow" title="{{vm.rssItem.link}}">{{vm.rssItem.linkname}}</a>
+            </div>
+            <div class="col-xs-3 {{vm.isSmallWidth ? ' smallText' : ' medText'}}" style="white-space:nowrap;">
+                {{vm.date}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 text-right">
+                <button type="button" class="btn btn-warning btn-sm" ng-click="vm.openAddPerson = !vm.openAddPerson">Add New Person</button>
+            </div>
+        </div>
+        <div ng-if="vm.openAddPerson">
+
+            <div class="row ">
+                <div class="col-xs-6 col-xs-offset-3">
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">New  Person</h3>
+                        </div>
+                        <div class="panel-body">
+                            <input type="text" class="form-control formField" placeholder='Last Name' ng-model="vm.newperson.lastname" ng-focus="syncAddString()" />
+                            <input type="text" class="form-control formField" placeholder='First Name' ng-model="vm.newperson.firstname" />
+                            <input type="text" class="form-control formField" placeholder='Middle Name' ng-model="vm.newperson.middlename" />
+                        </div>
+                        <div class="panel-footer text-center" style="width:100%;padding-top:6px;">
+                            <button type="button" class="btn btn-danger" ng-click="vm.openAddPerson = false;">
+                                <span class="glyphicon glyphicon-remove"></span> Cancel
+                            </button>
+                            <button type="button" class="btn btn-success" ng-click="vm.addNew(4)" ng-disabled="!vm.newperson.lastname || !vm.newperson.firstname ">
+                                <span class="glyphicon glyphicon-plus"></span> Add New
+                            </button>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row" ng-if="!vm.openAddPerson">
+            <div class="col-xs-12">
+                <person-picker document-id="vm.doc.id" org-id="vm.org.id"></person-picker>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-xs-12 text-right">
+                <button type="button" class="btn btn-success btn-sm" ng-click="vm.openAddTag = !vm.openAddTag">Add New Tag</button>
+            </div>
+        </div>
+        <div ng-if="vm.openAddTag">
+
+            <div class="row ">
+                <div class="col-xs-6 col-xs-offset-3">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">New  Tag</h3>
+                        </div>
+                        <div class="panel-body">
+                            <input type="text" class="form-control formField" placeholder='Name' ng-model="vm.newtag.name" />
+                            <select class="form-control" ng-options="item.id as item.name for item in vm.uts | orderBy: 'name'"
+                                    ng-model="vm.newtag.userType_Id"></select>
+                        </div>
+                        <div class="panel-footer text-center" style="width:100%;padding-top:6px;">
+                            <button type="button" class="btn btn-danger" ng-click="vm.openAddTag = false;">
+                                <span class="glyphicon glyphicon-remove"></span> Cancel
+                            </button>
+                            <button type="button" class="btn btn-success" ng-click="vm.addNew(5)" ng-disabled="!vm.newtag.name">
+                                <span class="glyphicon glyphicon-plus"></span> Add New
+                            </button>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="row" ng-if="!vm.openAddTag">
+            <div class="col-xs-12">
+                <tag-picker document-id="vm.doc.id" database-id="vm.arMedia"></tag-picker>
+            </div>
+        </div>
+
+
+        <br />
+        <div class="row" style="padding-bottom:16px;" >
+            <div class="col-xs-12 text-center">
+                <button type="button" class="btn {{(vm.isNotResearch) ? '' : 'btn-danger'}}" ng-click="vm.notResearch()">
+                    <span class="glyphicon glyphicon-trash"></span>  {{(vm.isNotResearch) ? 'Undo' : ''}} Not Research
+                </button>            </div>
+        </div>
+
+        <br />
+
+
+        <form role="form" class="form-horizontal" method="post">
+            <div class="row">
+                <div class="col-xs-12">
+                    <work-block modelobj="vm.doc" entity-type="1" entity-id="vm.doc.id"></work-block>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

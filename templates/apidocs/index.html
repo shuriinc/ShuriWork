@@ -1,0 +1,82 @@
+﻿<div ng-controller="ApiHomeCtrl as vm">
+    <div ng-include="'/templates/apidocs/apiNav.html'"></div>
+
+    <div class="row">
+        <div class="col-xs-7">
+            <h3>Overview</h3>
+            The Shuri API is a powerful and easy-to-use <strong>application programming interface</strong> that provides highly secure global data services to <strong>relationship management</strong> apps.
+            It provides fast, secure and global data storage web scale, and is based on a simple Relationship Management pattern.  In addition, the API's unique <i><strong>multiple database</strong></i>
+            capability makes collaborating and sharing data easy.
+
+            <br /><br />
+            To view more of the API docs, we ask that you please <a ui-sref="master.apiKey">register</a> - it is fast and free.  Why?  Because on most of the documentation pages, there are working demos of the API resources and those require authentication.
+
+
+        </div>
+        <div class="col-xs-5">
+            <br />
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Developers!</h3>
+                </div>
+                <div class="panel-body">
+                    The Shuri API is a publicly available, OAuth2 secured, https-based <a href="http://en.wikipedia.org/wiki/Representational_state_transfer" target="_blank">RESTful</a> API.
+                    There is no charge to develop applications using the API, however all API calls must be authenticated with a key.
+                    <br /><br /><a ui-sref="master.apiKey">Request your API Key here.</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12" style="padding-bottom:40px;">
+
+            <div style="text-align:center;">
+                <br />
+                <h2><strong>Relationship Management Model</strong></h2>
+                <img src="img/rmmodel.png" />
+            </div>
+            <br />
+            <h4>API Resources</h4>
+            The API has been built from the ground up to support the data storage needs of any relationship management application by providing a simpler, more concise, yet still incredibly useful vocabulary - all based entirely on the model.
+
+
+            <br />
+            <br />
+            Resources exposed by The API includes 3 "core" entities and several "attribute" entities:
+            <ul>
+                <li><strong><a ui-sref="master.apidocsPeople">People</a></strong></li>
+                <li><strong><a ui-sref="master.apidocsTouches">Touches</a></strong></li>
+                <li><strong><a ui-sref="master.apidocsGroups">Groups</a></strong></li>
+                <li>
+                    Attributes<ul>
+                        <li><strong><a ui-sref="master.apidocsTags">Tags</a></strong></li>
+                        <li><strong><a ui-sref="master.apidocsContactPoints">ContactPoints</a></strong></li>
+                        <li><strong><a ui-sref="master.apidocsLocations">Locations</a></strong></li>
+                        <li><strong><a ui-sref="master.apidocsDocuments">Documents</a></strong></li>
+                    </ul>
+                </li>
+            </ul>
+            One additional entity, <strong><a ui-sref="master.apidocsUserTypes">UserTypes</a></strong>, enables extensibility and customization for developers.
+            With just these 8 entities, the API supports a very wide range of relationship management functionality.
+            <br /><br />
+            <br /><strong>Key API Concepts:</strong>
+            <ol>
+                <li>
+                    Every instance of any entity must be associated to one database.
+                </li>
+                <li>
+                    Instances are owned by a single person.  Optionally, instances may be also owned by a single team.  Only owners may update the instance.
+                </li>
+                <li>
+                    Any database may be "published" to a Team whose members may then subscribe.  Subscribers get "read-only" privileges to everything in the database.
+                </li>
+                <li>
+                    No practical limit to the number of instances of any entity in The API.
+                </li>
+                <li>
+                    Instances are identified by a globally unique id.
+                </li>
+            </ol>
+        </div>
+    </div>
+</div>

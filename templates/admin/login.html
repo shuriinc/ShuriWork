@@ -1,0 +1,122 @@
+﻿<div ng-controller="LoginCtrl as vm">
+    <br /><br />
+    <form role="form" class="form-horizontal" method="post">
+        <div class="row" ng-show="!vm.showSpinner">
+
+            <div class="col-xs-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading" ng-click="vm.showDSDDL = !vm.showDSDDL">
+                        <h3 class="panel-title">Login</h3>
+                    </div>
+                    <div class="panel-body" style="height:200px;">
+                        <input type="text" class="form-control" placeholder="Email or Phone" ng-model="vm.user.username" />
+                        <br />
+                        <div ng-if="!vm.showPWReset">
+                            <input type="password" class="form-control" placeholder="Password" ng-model="vm.user.password" />
+                            <div class="checkbox " ng-if="!vm.showPWReset">
+                                <br /><label><input type="checkbox" ng-model="vm.user.rememberMe" /> Keep me logged in</label>
+                            </div>
+                            <br />
+
+                        </div>
+                        <div ng-if="vm.showPWReset">
+                            <input type="password" class="form-control" placeholder="New Password" ng-model="vm.user.password" />
+                            <br />
+                            <input type="password" class="form-control" placeholder="Confirm New Password" ng-model="vm.confirmpassword" />
+                            <br />
+
+                        </div>
+
+ 
+
+                    </div>
+                    <div class="panel-footer">
+                        <div class="btn-group btn-group-justified" role="group">
+                            <div class="btn-group" role="group">
+                                <input type="submit" class="btn btn-primary" ng-click="vm.login()" ng-if="!vm.showPWReset" value="Log In" />
+                                <button type="button" class="btn btn-info" ng-click="vm.resetPW()" ng-if="vm.showPWReset">
+                                    Reset Password
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class=" row">
+                    <div class="col-xs-11 text-center">
+                        <a ng-if="!vm.showPWReset" ng-click="vm.pwRecover()">Forgot password?</a>
+                    </div>
+                </div>
+
+           </div>
+            <div class="col-xs-12" ng-if="false && !vm.hideRegistration">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Sign Up</h3>
+                    </div>
+                    <div class="panel-body" style="height:200px;">
+                        <div class="form-group row">
+                            <div class="col-xs-5">
+                                <input type="text" class="form-control" placeholder="First Name" ng-model="vm.reg.firstname" />
+                            </div>
+                            <div class="col-xs-6">
+                                <input type="text" class="form-control" placeholder="Last name" ng-model="vm.reg.lastname" />
+
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-xs-11 {{vm.regUsernameClasses()}}">
+                                <input type="text" ng-model="vm.reg.username" class="form-control" placeholder="Email or mobile number*" ng-blur="vm.checkUsername()" />
+                            </div>
+                            <div class="col-xs-1 text-left">
+                                <div ng-if="vm.usernameChecked" style="font-size:1.5em;" class="pull-left">
+                                    <i ng-if="!vm.usernameOK" class="glyphicon glyphicon-remove text-danger"></i>
+                                    <i ng-if="vm.usernameOK" class="glyphicon glyphicon-ok text-success"></i>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-xs-11">
+                                <input type="password" class="form-control" placeholder="New Password" ng-model="vm.reg.password" />
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="panel-footer">
+                        <div class="btn-group btn-group-justified" role="group">
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-success" ng-click="vm.register()">
+                                    Sign Up
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class=" row">
+                    <div class="col-xs-11 text-center">
+                        <div class="text-muted small">* Mobile number is not currently supported.  [ToDo].</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row" ng-show="!vm.showSpinner && vm.showDSDDL">
+            <div class="col-xs-8" style="padding-top:30px;padding-bottom:120px;">
+                <label class="control-label">
+                    API Data Source
+                </label>
+                <select class="form-control" ng-options="item as item.name for item in vm.dataSources" ng-model="vm.dsSelected"></select>
+            </div>
+        </div>
+            <sspinner ng-if="vm.showSpinner" text="{{vm.spinnerText}}" padding="120"></sspinner>
+
+</form>
+
+
+
+</div>
+

@@ -1,0 +1,47 @@
+﻿<div ng-controller="UsersCtrl as vm">
+    <h3>Manage Users</h3>
+
+    <table class="table table-striped table-condensed">
+        <tr>
+            <th></th>
+            <th>Name</th>
+            <th ng-if="vm.appUser.isSysAdmin">Username</th>
+            <th class="text-center">Created</th>
+            <th>Last Modified</th>
+            <th>Role</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr ng-repeat="user in vm.users | orderBy: ['role.sortorder', 'lastname'] ">
+            <td>
+                <div ng-if="false && (user.isUser || user.isDev || user.isSysAdmin)">
+                    <span class="glyphicon glyphicon-cog fakelink" title="Manage" ng-click="vm.manageUser(user.id);"> </span>
+                </div>
+            </td>
+            <td>{{user.name}}</td>
+            <td ng-if="vm.appUser.isSysAdmin">{{user.username}}</td>
+            <td class="text-center">
+                <small>{{user.createdDt | date}}</small>
+            </td>
+            <td>
+                <small>{{user.modifiedDt | date}} by {{user.modifiedByName}}</small>
+            </td>
+            <td>{{user.role.name}}</td>
+            <td>
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Change
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li ng-repeat="role in vm.roles" ng-if="$index > user.roleIndex"><a href="#" ng-click="vm.promoteRole(user,role)">{{role.name}}</a></li>
+                    </ul>
+                </div>
+
+            </td>
+           <td>
+                <span ng-if="(!user.isSysAdmin && !user.isReviewer && !user.isDev)" class="glyphicon glyphicon-trash fakelink" title="Delete this account" ng-click="vm.deleteUser(user);"> </span>
+            </td>
+        </tr>
+    </table>
+</div>

@@ -1,0 +1,33 @@
+﻿<div ng-controller="OrgAddCtrl as vm">
+    <h3>
+        OrgAdd - {{vm.org.name}}
+    </h3>
+    <br />
+    <br />
+    <br />
+
+    <div class="form-group row" >
+        <div class="col-xs-12 text-center">
+            <label class="control-label">
+                OK to add organization: <strong>{{vm.org.name}}</strong>?
+            </label>
+        </div>
+    </div>
+
+    <br />
+
+    <br />
+    <hr />
+    <div class="row">
+        <div class="col-xs-12">
+
+
+            <work-block modelobj="vm.org"></work-block>
+
+
+        </div>
+    </div>
+
+
+</div>
+

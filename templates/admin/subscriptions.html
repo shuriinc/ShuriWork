@@ -1,0 +1,54 @@
+﻿<div ng-controller="SubscriptionsCtrl as vm">
+
+    <div ng-if="!vm.loadComplete">
+        <sspinner text="Loading ..." padding="120"></sspinner>
+
+    </div>
+    <div ng-if="vm.loadComplete">
+
+
+
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Subscriptions</h4>
+            </div>
+            <div class="col-md-6" style="text-align:right;"><br />
+                <a ui-sref="master.account">Return to My Account</a>
+            </div>
+        </div>
+
+        <div class="row ">
+            <div class="col-xs-12">
+                <table class="table table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Owned By</th>
+                            <th>Type</th>
+                            <th class="text-right">Cost</th>
+                            <th class="text-right">Began</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <tr ng-repeat="sub in vm.subscriptions" >
+                                <td style="white-space:nowrap;">{{sub.name}} </td>
+                                <td>{{sub.description}}</td>
+                                <td style="white-space:nowrap;">{{sub.ownedByName}}</td>
+                                <td style="white-space:nowrap;">{{sub.subscriptionTypename}}</td>
+                                <td style="white-space:nowrap;" class="text-right">{{sub.value | currency}}</td>
+                                <td style="white-space:nowrap;" class="text-center">{{sub.startDt | date}}</td>
+                                <td style="white-space:nowrap;">
+                                    <button ng-if="sub.isSubscribed" class="btn-warning" ng-click="vm.togglesubscribe(sub);">Unsubscribe</button>
+                                    <button ng-if="!sub.isSubscribed" class="btn-primary" ng-click="vm.togglesubscribe(sub);">Subscribe</button>
+                                </td>
+                            </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+

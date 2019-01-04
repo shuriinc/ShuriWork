@@ -1,0 +1,52 @@
+﻿<div ng-controller="DedupeCtrl as vm">
+    <sspinner ng-if="!vm.showWork" text="Loading Work Item ..." padding="120"></sspinner>
+    <div ng-if="vm.showWork">
+        <div class="row">
+            <div class="col-xs-6">
+                <h3>
+                    Dedupe - {{vm.entity.name}}  <img ng-src="{{vm.entity.imageUrl}}" ng-if="vm.entity.imageUrl" height="64" />
+
+                    <div class="btn-group" ng-if="vm.entity.searchUrl">
+                        <button type="button" class="btn btn-default" ng-click="vm.showBrowser(vm.entity.searchUrl)">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </div>
+                </h3>
+
+            </div>
+            <div class="col-xs-6 pull-right">
+                <page-timer></page-timer>
+            </div>
+        </div>
+
+        <br />
+        <h4 ng-if="!vm.forReview">Are any of these {{vm.entity.name}}?</h4>
+        <h4 ng-if="vm.forReview">Answer:  {{vm.answerText}}</h4>
+
+        <ul class="list-group " ng-repeat="dupe in vm.dupes | orderBy: 'name'">
+            <li ng-class="vm.liClass(dupe)"
+                ng-click="vm.answer(dupe.id)"
+                style="height:52px;">
+                <img ng-if="dupe.imageUrl" ng-src="{{dupe.imageUrl}}" height="38" width="38" border="0" />
+                <strong style="padding-left:{{(dupe.imageUrl) ? '20px;' : '58px;'}};">{{dupe.name}}</strong>
+                <div ng-if="dupe.searchUrl" class="btn-group pull-right">
+                    <button type="button" class="btn btn-default" ng-click="vm.showBrowser(dupe.searchUrl)">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </div>
+
+            </li>
+        </ul>
+
+        <div class="row">
+            <div class="col-xs-12">
+
+
+                <work-block modelobj="vm.dupeId" forreview="vm.forReview"></work-block>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+

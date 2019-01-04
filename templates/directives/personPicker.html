@@ -1,0 +1,79 @@
+﻿<div class="panel panel-warning">
+    <div class="panel-heading">
+        <h3 class="panel-title">People</h3>
+    </div>
+    <div class="panel-body">
+
+            <!-- Search Bar -->
+            <div class="row">
+                <div class="col-xs-12 " style="padding-bottom:16px;">
+                    <input id="inputAdd" ng-model="searcher.searchString" type="text" class="form-control" placeholder="Search by lastname, firstname"
+                           onmouseup="this.select();" ng-focus="resetHideResults()" ng-keyup="keyPressedAdd($event, this)" />
+
+                </div>
+
+            </div>
+
+            <!-- Search Results-------------------------->
+            <div ng-if="showSearchResults" class="row">
+                <div class="col-xs-12 ">
+                    <div ng-if="!searching">
+                        <div class="list-group" ng-if="results && results.length > 0">
+                            <div ng-repeat="result in results | orderBy: ['sorter','name']">
+                                <div class="row list-group-item text-nowrap {{result.hover ? 'list-group-item-info' : ''}}"
+                                     ng-mouseover="result.hover=true;"
+                                     ng-click="itemSelected(result);"
+                                     ng-mouseout="result.hover=false;">
+                                    <div class="col-xs-2 text-center" >
+                                            <img ng-src="{{result.imageUrlThumb}}" 
+                                                 ng-if="result.imageUrlThumb && result.imageUrlThumb != ''"
+                                                  width="42" height="42" style="-moz-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 6px;"/>
+                                    </div>
+                                    <div class="col-xs-9">{{result.name}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="results.length == 0">{{searcher.searchString}} not found. </div>
+                    </div>
+
+                    <div ng-if="searching">Searching... </div>
+
+                </div>
+
+            </div>
+
+            <!-- Item List -------------------------->
+            <div ng-if="!showSearchResults">
+                <div class="row" style="padding:6px;">
+                    <div class="col-xs-12 ">
+                        <div class="list-group" ng-if="people.length > 0">
+                            <div>
+                                <div class="row text-nowrap list-group-item list-group-item-warning"
+                                     ng-repeat="enty in people  | orderBy: ['sortname', 'sorter', 'name']"
+                                     >
+                                    <div class="col-xs-2">
+                                        <span ng-if="enty.imageUrl && enty.imageUrl != ''">
+                                            <img ng-src="{{enty.imageUrl}}" width="42" height="42" style="-moz-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 6px;" />
+                                        </span>
+                                    </div>
+                                    <div class="col-xs-8">
+                                        <span class="{{(isNarrow && enty.name.length > 30) ? 'smallText' : ''}}">{{enty.name}}</span>
+                                    </div>
+                                    <div class="col-xs-2" ng-click="remove($event, enty)">
+                                        <span class="glyphicon glyphicon-trash">&nbsp;</span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--  empty list -->
+                        <div ng-if="!people" class="itemLabel">
+                            No people
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+</div>

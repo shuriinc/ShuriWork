@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html ng-app="dizzy"  xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head ng-controller="HeadCtrl as vmHead">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    
+    <title id="theTitle"></title>
+
+    <!--<link ng-href="{{vmHead.bootTheme}}" rel="stylesheet" />-->
+    <link rel="stylesheet" href="lib/bootstrap.3.3.7/bootstrap.min.css" />
+    <link rel="stylesheet" href="lib/bootstrap.3.3.7/bootstrap-theme.min.css" />
+
+
+    <script type="text/javascript">
+		var _appVersion = "3.0.0.7a";
+
+        var _uniquifier = _appVersion;
+        if (document.location.href.toLowerCase().indexOf("appstage.shuri") > -1) _uniquifier = (new Date()).toISOString();
+        //console.log(_uniquifier);
+        document.write('<lin' + 'k href="css/style.css?' + _uniquifier + '" rel="stylesheet" />');
+    </script>
+
+</head>
+
+<body>
+    <ui-view></ui-view>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.5/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.5.5/angular-sanitize.min.js"></script>
+
+    <!--<script src="lib/bootstrap.3.3.7/bootstrap.min.js"></script>-->
+    <script src="lib/angular-ui-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="lib/angular-ui-bootstrap/ui-bootstrap.js"></script>
+    <script src="lib/moment.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.min.js"></script>
+
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=[google_API_here]" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        document.write('<scr' + 'ipt src="js/shuri.js?' + _uniquifier + '" type="text/javascript"></scr' + 'ipt>');
+        document.write('<scr' + 'ipt src="js/shuriModels.js?' + _uniquifier + '" type="text/javascript"></scr' + 'ipt>');
+        document.write('<scr' + 'ipt src="js/app.js?' + _uniquifier + '" type="text/javascript"></scr' + 'ipt>');
+        document.write('<scr' + 'ipt src="js/data.js?' + _uniquifier + '" type="text/javascript"></scr' + 'ipt>');
+        document.write('<scr' + 'ipt src="js/globals.js?' + _uniquifier + '" type="text/javascript"></scr' + 'ipt>');
+        document.write('<scr' + 'ipt src="js/filters.js?' + _uniquifier + '" type="text/javascript"></scr' + 'ipt>');
+        document.write('<scr' + 'ipt src="js/directives/miscDirectives.js?' + _uniquifier + '" type="text/javascript"></scr' + 'ipt>');
+        document.write('<scr' + 'ipt src="js/directives/entityCDL.js?' + _uniquifier + '" type="text/javascript"></scr' + 'ipt>');
+        document.write('<scr' + 'ipt src="js/directives/entityTags.js?' + _uniquifier + '" type="text/javascript"></scr' + 'ipt>');
+        document.write('<scr' + 'ipt src="js/directives/entityOrgs.js?' + _uniquifier + '" type="text/javascript"></scr' + 'ipt>');
+        document.write('<scr' + 'ipt src="js/directives/entityPeople.js?' + _uniquifier + '" type="text/javascript"></scr' + 'ipt>');
+        document.write('<scr' + 'ipt src="js/directives/personPicker.js?' + _uniquifier + '" type="text/javascript"></scr' + 'ipt>');
+        document.write('<scr' + 'ipt src="js/directives/tagPicker.js?' + _uniquifier + '" type="text/javascript"></scr' + 'ipt>');
+        document.write('<scr' + 'ipt src="js/directives/workBlock.js?' + _uniquifier + '" type="text/javascript"></scr' + 'ipt>');
+        document.write('<scr' + 'ipt src="js/controllers/common.js?' + _uniquifier + '" type="text/javascript"></scr' + 'ipt>');
+        document.write('<scr' + 'ipt src="js/controllers/admin.js?' + _uniquifier + '" type="text/javascript"></scr' + 'ipt>');
+        document.write('<scr' + 'ipt src="js/controllers/work.js?' + _uniquifier + '" type="text/javascript"></scr' + 'ipt>');
+        document.write('<scr' + 'ipt src="js/controllers/updates.js?' + _uniquifier + '" type="text/javascript"></scr' + 'ipt>');
+        document.write('<scr' + 'ipt src="js/controllers/api.js?' + _uniquifier + '" type="text/javascript"></scr' + 'ipt>');
+        document.write('<scr' + 'ipt src="js/controllers/import.js?' + _uniquifier + '" type="text/javascript"></scr' + 'ipt>');
+        document.write('<scr' + 'ipt src="js/controllers/workItems.js?' + _uniquifier + '" type="text/javascript"></scr' + 'ipt>');
+
+    </script>
+
+
+    <!-- JS INIT & GLOBALS -->
+    <script type="text/javascript">
+        var _guidEmpty = '00000000-0000-0000-0000-000000000000';
+        var _siteName = 'Shuri Worksite'; 
+        var _appUser = new shuri_person();
+        _appUser.isUser = false;
+
+        document.getElementById("theTitle").innerHTML = _siteName;
+
+        //Force SSL
+        if (location.protocol != 'https:' && location.href.indexOf("localhost") == -1) location.protocol = 'https:';
+        console.log(location.protocol);
+
+    </script>
+
+
+</body>
+</html>

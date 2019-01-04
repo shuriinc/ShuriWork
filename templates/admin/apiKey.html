@@ -1,0 +1,46 @@
+﻿<div ng-controller="ApiKeyCtrl as vm">
+        <h4>Get API Key</h4><br /><br />
+        <div ng-if="!vm.haskey">
+             <div class="row">
+                <div class="col-md-6">
+                    <label class="control-label">
+                        Your origin domain 
+                    </label>
+                    <input type="text" class="form-control" ng-model="vm.req.uri" required maxlength="140" placeholder="mydomain.com or localhost:8080"/>
+                </div>
+            </div><br />
+            <div class="row">
+                <div class="col-md-6">
+                    <label>
+                        Please describe your intended usage
+                    </label>
+                    <input type="text" class="form-control" ng-model="vm.req.usage" required maxlength="140" />
+               </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6 text-center">
+                    <div class="checkbox">
+                        <br /><label><input type="checkbox" ng-model="vm.agreed" /> I agree to the <a ng-click="vm.terms()">Terms and Conditions</a></label>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6 text-center">
+                    <button class="btn btn-block btn-primary" ng-click="vm.requestKey()" ng-disabled="!vm.agreed || !vm.req.usage || !vm.req.uri"> Request Key </button>
+                </div>
+            </div>
+         </div>
+        <div ng-if="vm.haskey">
+            <div class="jumbotron">
+                <p> Here is your API key: <b>{{vm.req.key}}</b>  </p><br />
+
+
+            </div>
+            <p class="small"> Please use your API key in accordance with The Agreement. Keep it secret and do not share it with anyone.  </p>
+            <br />
+            <h4>Thank you for your interest in the Shuri API!</h4>
+
+        </div>
+    </div>

@@ -1,0 +1,76 @@
+﻿<div ng-controller="TwNameCatCtrl as vm">
+    <h3>
+        {{vm.title}}
+    </h3>
+    <form role="form" class="form-horizontal" method="post">
+        <div class="panel panel-default">
+            <div class="panel-heading">Twitter Account</div>
+            <div class="panel-body fakelink" ng-click="vm.showBrowser(vm.entity.screenname)">
+                <img class="pull-right" ng-src="{{vm.entity.twitterImageUrl}}">
+                <label class="control-label"> @{{vm.entity.screenname}}</label><br />
+                <div class="smallText">{{vm.entity.twitterBio}} ({{vm.entity.followers | number : 0}} follow)</div>
+            </div>
+        </div>
+
+        <div class="panel {{(vm.isPerson)? 'panel-warning' : 'panel-info'}}">
+            <div class="panel-heading">{{(vm.isPerson)? 'Person' : 'Organization'}}</div>
+            <div class="panel-body">
+                <div ng-if="vm.isPerson">
+                    <div class="form-group row">
+                        <div class="col-xs-12">
+                            <label class="control-label">
+                                {{vmMaster.wordFor("First Name")}}
+                            </label>
+                            <input type="text" class="form-control formField" ng-model="vm.entity.firstname" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-xs-12">
+                            <label class="control-label">
+                                {{vmMaster.wordFor("Middle Name")}}
+                            </label>
+                            <input type="text" class="form-control formField" ng-model="vm.entity.middlename" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-xs-12">
+                            <label class="control-label">
+                                {{vmMaster.wordFor("Last Name")}}
+                            </label>
+                            <input type="text" class="form-control formField" ng-model="vm.entity.lastname" />
+                        </div>
+                    </div>
+
+
+                </div>
+                <div ng-if="!vm.isPerson">
+                    <div class="form-group row">
+                        <div class="col-xs-12">
+                            <label class="control-label">
+                                {{vmMaster.wordFor("Name")}}
+                            </label>
+                            <input type="text" class="form-control formField" ng-model="vm.entity.name" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+
+
+                <work-block modelobj="vm.touch.id" showcomments="false"></work-block>
+
+
+            </div>
+        </div>
+
+
+    </form>
+
+
+</div>
+

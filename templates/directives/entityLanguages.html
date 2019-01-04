@@ -1,0 +1,21 @@
+﻿<div class="form-group row">
+    <!-- Language-->
+    <div class="col-xs-12">
+        <label class="control-label">
+            Languages
+        </label>
+        <div ng-repeat="tag in entity.tags | filter: {typename:'Language', changeType: '!2'} |  orderBy: 'name'">
+            {{tag.name}}
+            <span ng-if="isUpdate" class="fakelink text-danger" ng-click="removeTag(tag)">
+                <i class="glyphicon glyphicon-remove" style="font-size:.9em;"></i>
+            </span>
+        </div>
+        <select class="form-control"
+                ng-if="isUpdate"
+                ng-options="item as item.name for item in languageTags | orderBy: 'name'"
+                ng-model="languageItem"
+                ng-change="langNGChanged(languageItem)"></select>
+    </div>
+</div>
+
+

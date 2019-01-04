@@ -1,0 +1,182 @@
+﻿<div ng-controller="WorkUpdatesCtrl as vm">
+    <sspinner ng-if="!vm.showWork" text="Loading Work Item ..." padding="120"></sspinner>
+    <div ng-if="vm.showWork">
+        <form role="form" class="form-horizontal" method="post">
+
+            <div class="row  bg-info itemPadding" ng-if="!vm.isTechInvest">
+                <div class="col-xs-6">
+                    <i class="glyphicon glyphicon-book"></i> Database:&nbsp;&nbsp;
+                    <a  href="https://shuristoragecdn.blob.core.windows.net/workers/ARSubscription.pdf" target="_blank">Analyst Relations</a>
+                </div>
+                <div class="col-xs-6 text-right">
+                    <i class="glyphicon glyphicon-question-sign"></i> Instructions:&nbsp;&nbsp;
+                    <span ng-if="vm.isPerson">
+                        <a href="https://shuristoragemedia.blob.core.windows.net/public/PersonUpdates.mp4" target="_blank"><i class="glyphicon glyphicon-facetime-video"></i> Video</a>&nbsp;&nbsp;&nbsp;
+                        <a href="https://shuristoragecdn.blob.core.windows.net/workers/PersonUpdate.pdf" target="_blank"><i class="glyphicon glyphicon-file"></i> PDF</a>
+                    </span>
+                    <span ng-if="!vm.isPerson">
+                        <a href="https://shuristoragemedia.blob.core.windows.net/public/OrgUpdatevideo.mp4" target="_blank"><i class="glyphicon glyphicon-facetime-video"></i> Video</a>&nbsp;&nbsp;&nbsp;
+                        <a href="https://shuristoragecdn.blob.core.windows.net/workers/OrgUpdate.pdf" target="_blank"><i class="glyphicon glyphicon-file"></i> PDF</a>
+                    </span>
+                </div>
+            </div>
+            <div class="row  bg-success itemPadding" ng-if="vm.isTechInvest">
+                <div class="col-xs-6">
+                    <i class="glyphicon glyphicon-book"></i> Database:&nbsp;&nbsp;
+                    Tech Investors
+                </div>
+                <div ng-if="false" class="col-xs-6 text-right">
+                    <i class="glyphicon glyphicon-question-sign"></i> Instructions:&nbsp;&nbsp;
+                    <span ng-if="vm.isPerson">
+                        <a href="https://shuristoragemedia.blob.core.windows.net/public/PersonUpdates.mp4" target="_blank"><i class="glyphicon glyphicon-facetime-video"></i> Video</a>&nbsp;&nbsp;&nbsp;
+                        <a href="https://shuristoragecdn.blob.core.windows.net/workers/PersonUpdate.pdf" target="_blank"><i class="glyphicon glyphicon-file"></i> PDF</a>
+                    </span>
+                    <span ng-if="!vm.isPerson">
+                        <a href="https://shuristoragemedia.blob.core.windows.net/public/OrgUpdatevideo.mp4" target="_blank"><i class="glyphicon glyphicon-facetime-video"></i> Video</a>&nbsp;&nbsp;&nbsp;
+                        <a href="https://shuristoragecdn.blob.core.windows.net/workers/OrgUpdate.pdf" target="_blank"><i class="glyphicon glyphicon-file"></i> PDF</a>
+                    </span>
+                </div>
+            </div>
+           <div class="row bg-warning">
+                <div class="col-xs-7">
+                    <h3>
+                        {{vm.title}} - {{vm.entity.name}}
+                    </h3>
+                </div>
+                <div class="col-xs-5" style="padding-top:12px;">
+                    <div class="btn-group pull-left" role="group">
+                        <button type="button" class="btn btn-success" ng-click="vm.showUrl('searchhomepage', 'window1')"><i class="glyphicon glyphicon-search"></i> Google {{vm.entity.name}}</button>
+                        <button type="button" class="btn btn-warning" ng-if="!vm.isPerson" ng-click="vm.showUrl('searchcontactus')"><i class="glyphicon glyphicon-search "></i> Contact Us</button>
+                        <button type="button" class="btn btn-info" ng-if="vm.employeeUrl" ng-click="vm.showUrl(vm.employeeUrl)"><i class="glyphicon glyphicon-search "></i>{{vm.employeeUrlName}}</button>
+                    </div>
+                    <!--<page-timer class="pull-right"></page-timer>-->
+                </div>
+            </div>
+            <br />
+            <div ng-if="vm.isPerson">
+                <div class="form-group row">
+                    <div class="col-xs-2">
+                        <label class="control-label">
+                            {{vmMaster.wordFor("Prefix")}}
+                        </label>
+                        <select class="form-control" ng-options="item as item for item in vm.prefixes" ng-model="vm.entity.prefix"></select>
+                    </div>
+                    <div class="col-xs-4">
+                        <label class="control-label">
+                            {{vmMaster.wordFor("First Name")}}
+                        </label>
+                        <input type="text" class="form-control formField" ng-model="vm.entity.firstname" />
+                    </div>
+                    <div class="col-xs-2">
+                        <label class="control-label">
+                            {{vmMaster.wordFor("Middle Name")}}
+                        </label>
+                        <input type="text" class="form-control formField" ng-model="vm.entity.middlename" />
+                    </div>
+                    <div class="col-xs-4">
+                        <label class="control-label">
+                            {{vmMaster.wordFor("Last Name")}}
+                        </label>
+                        <input type="text" class="form-control formField" ng-model="vm.entity.lastname" />
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-xs-2">
+                        <label class="control-label">
+                            {{vmMaster.wordFor("Suffix")}}
+                        </label>
+                        <input type="text" class="form-control formField" ng-model="vm.entity.suffix" />
+                    </div>
+                    <div class="col-xs-6">
+                        <label class="control-label">
+                            {{vmMaster.wordFor("Nickname")}}
+                        </label>
+                        <input type="text" class="form-control formField" ng-model="vm.entity.nickname" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+
+                    <div class="col-xs-12">
+                        <label class="control-label">Summary Description</label>
+                        <textarea class="form-control" type="text" rows="5" ng-model="vm.entity.description"></textarea>
+                    </div>
+                </div>
+
+
+                <entity-orgs entity="vm.entity" deletable="vm.reviewType > 0" forupdate="true" showavatar="true" db-id="vm.dbId"></entity-orgs>
+
+            </div>
+
+            <div ng-if="!vm.isPerson">
+                <div class="form-group row">
+                    <div class="col-xs-12">
+                        <label class="control-label">
+                            {{vmMaster.wordFor("Name")}}
+                        </label>
+                        <input type="text" class="form-control formField" ng-model="vm.entity.name" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-xs-12">
+                        <label class="control-label">
+                            {{vmMaster.wordFor("Nickname")}}
+                        </label>
+                        <input type="text" class="form-control formField" ng-model="vm.entity.nickname" />
+                    </div>
+                </div>
+                <div class="form-group row">
+
+                    <div class="col-xs-12">
+                        <label class="control-label">Summary Description</label>
+                        <textarea class="form-control" type="text" rows="5" ng-model="vm.entity.description"></textarea>
+                    </div>
+                </div>
+
+
+            </div>
+            
+
+                <div class="form-group row">
+                    <div class="col-xs-12">
+                        <label class="control-label">
+                            {{(vm.isPerson) ? vmMaster.wordFor("Photo") : vmMaster.wordFor("Logo")}} Url&nbsp;&nbsp;
+                        </label>
+                        <div class="input-group">
+                            <input class="form-control" type="{{cp.inputType}}" ng-model="vm.imageUrl" ng-blur="vm.imageUrlSync()" select-on-click />
+                            <div class="input-group-addon fakelink" ng-click="vm.getImage();"><i class="glyphicon glyphicon-search"></i></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row" ng-if="vm.entity.imageUrl">
+                    <div class="col-xs-12">
+                        <img ng-src="{{vm.entity.imageUrl}}" height="64" />
+                    </div>
+                </div>
+
+                <br />
+
+                <entity-cdl entity="vm.entity" forupdate="true" org-name="vm.orgName"></entity-cdl>
+
+                <entity-languages entity="vm.entity" forupdate="true"></entity-languages>
+
+                <div ng-if="vm.appUser.isReviewer || vm.showTags">
+                    <br />
+                    <entity-tags entity="vm.entity" entitytype="vm.entitytype" forupdate="true" databaseid="vm.dbId"></entity-tags>
+                </div>
+
+                <div class="row" ng-show="vm.entity.prefix || !vm.isPerson">
+                    <div class="col-xs-12">
+                        <work-block modelobj="vm.entity"  entity-type="vm.realEntityType" entity-id="vm.entity.id" ></work-block>
+                    </div>
+                </div>
+
+
+</form>
+
+    </div>
+</div>
+

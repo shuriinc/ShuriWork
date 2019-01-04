@@ -1,0 +1,81 @@
+﻿<div ng-controller="AccountCtrl as vm">
+
+    <div ng-if="!vm.loadComplete">
+        <sspinner  text="Loading ..." padding="120"></sspinner>
+
+    </div>
+    <div ng-if="vm.loadComplete">
+        <form role="form">
+            <div class="row">
+                <div class="col-xs-6">
+                    <h3>My Account</h3>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 text-right">
+                    <a ng-if="false">Change Password</a>
+                </div>
+
+            </div>
+            <div class="jumbotron">
+                <div class="row form-inline">
+                    <div class="col-xs-2">
+                        <label for="Firstname" class="control-label">Name</label>
+                    </div>
+                    <div class="col-xs-10">
+                        <input type="text" class="form-control" id="Prefix" placeholder="Prefix" style="width:80px;" ng-model="vm.appUser.prefix" ng-change="vm.makeDirty('person')">
+                        <input type="text" class="form-control" id="Firstname" placeholder="Firstname" ng-model="vm.appUser.firstname" ng-change="vm.makeDirty('person')">
+                        <input type="text" class="form-control" id="Middlename" placeholder="Middlename" ng-model="vm.appUser.middlename" ng-change="vm.makeDirty('person')">
+                        <input type="text" class="form-control" id="Lastname" placeholder="Lastname" ng-model="vm.appUser.lastname" ng-change="vm.makeDirty('person')">
+                        <input type="text" class="form-control" id="Suffix" placeholder="Suffix" style="width:80px;" ng-model="vm.appUser.suffix" ng-change="vm.makeDirty('person')">
+
+                    </div>
+                 </div><br />
+                <div class="row form-inline">
+                    <div class="col-xs-2">
+                        <label for="email" class="control-label">Email Address</label>
+                    </div>
+                    <div class="col-xs-10">
+                        <input type="email" class="form-control" placeholder="Email Address" ng-model="vm.primaryCP.name" ng-change="vm.makeDirty('email')">
+                    </div>
+                </div><br />
+                <div class="row form-inline">
+                    <div class="col-xs-2">
+                        <label class="control-label">Username</label>
+                    </div>
+                    <div class="col-xs-10">
+                        {{vm.appUser.username}}
+                    </div>
+                </div><br />
+                <div class="row form-inline">
+                    <div class="col-xs-12 text-center">
+                        <button class="btn btn-primary" ng-if="vm.appUser.isUser && vm.isDirty == true && !vm.inSave" ng-click="vm.saveChanges()">Save Changes</button>
+                        <sspinner ng-show="vm.inSave" text="Saving ..." padding="20"></sspinner>
+
+                    </div>
+                </div>
+                <div class="row form-inline" ng-if="vm.showSaveChangesMsg">
+                    <div class="col-xs-12">
+                        <br />
+                        <div class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>{{vm.saveChangesMsg}}</div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <br />
+
+            <div class="row" ng-if="!vm.appUser.isUser">
+                <div class="col-xs-12">
+                    <div class="alert alert-danger" role="alert"><h4>You have not been granted user permissions yet.</h4></div>
+
+                </div>
+            </div>
+
+
+
+        </form>
+
+    </div>
+
+</div>

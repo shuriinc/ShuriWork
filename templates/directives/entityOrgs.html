@@ -1,0 +1,77 @@
+﻿<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{wordFor("Organizations")}}</h3>
+    </div>
+    <div class="panel-body">
+        <div class="form-group row" ng-if="isUpdate">
+            <div class="col-xs-12">
+                <div class="input-group">
+                    <div class="input-group-addon fakelink"><i class="glyphicon glyphicon-plus"></i></div>
+                    <input name="inputAddO" class="form-control formField" ng-model="addString" type="search" placeholder="Add Organization" onmouseup="this.select();" ng-focus="resetHideResults()" ng-blur="hideResults()" ng-keyup="keyPressedAdd($event, this)">
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-if="showResults">
+            <div class="col-xs-12" ng-show="searching">{{wordFor("Searching")}}...</div>
+            <div class="col-xs-12" ng-show="!searching && (!results || results.length == 0)">{{wordFor("No results found")}}</div>
+            <div class="col-xs-12" ng-repeat="result in results | orderBy: 'sorter'" ng-click="selectAddResult(result)" >
+                {{result.name}}
+            </div>
+        </div>
+        <div ng-repeat="group in entity.groups | filter: {grpType: 3} | orderBy: 'sorter'" ng-show="!showResults">
+            <div class="row">
+                <div class="col-xs-2 text-right" ng-click="group.openEdit = !group.openEdit;">
+                    <img ng-src="{{group.imageUrlThumb}}" ng-if="group.imageUrlThumb" height="18" />
+                </div>
+
+                <div class="col-xs-8" ng-click="group.openEdit = !group.openEdit;" ng-if="group.changeType == 2"  >
+                    <span class='text-danger'>{{group.name}} - to be removed</span>
+                </div>
+                <div class="col-xs-8" ng-click="group.openEdit = !group.openEdit;" ng-if="group.changeType != 2" >
+                    <span class='text-primary'>{{group.name}}</span>
+                    <span class="medText" ng-if="group.title">({{group.title}})</span>
+                    <span class="medText" ng-if="!group.title">(unknown title)</span>
+                    <span ng-if="group.tenureOver" class="text-warning medText">  - previous</span>
+                </div>
+
+                <div class="col-xs-1" ng-if="deletable" ng-click="deleteAssociation(group);">
+                    <i class="glyphicon glyphicon-trash"  style="color:{{group.changeType == 2 ? 'black' : 'red'}}"></i>
+                </div>
+            </div>
+            <div class="bg-info medText" ng-show="group.openEdit" style="padding:12px;">
+                <div class="row form-group">
+                    <div class="col-xs-1 col-xs-offset-1 text-right">
+                        <span class="input-label">Title</span>
+                    </div>
+                    <div class="col-xs-6">
+                        <input type="text" class="form-control formField" ng-model="group.title" ng-change="tenureUpdated(group,1)">
+                    </div>
+
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-1 col-xs-offset-1  text-right">
+                        <span class="input-label">Dates</span>
+                    </div>
+                    <div class="col-xs-4">
+                        <input type="date" ng-model="group.jsStartDt" class="form-control formField" ng-change="dateUpdated(group,0)">
+                        <!--<date-bound ng-model="group.startDt" ng-change="dateUpdated(group,0)"></date-bound>-->
+                    </div>
+                    <div class="col-xs-1">
+                        to
+                    </div>
+                    <div class="col-xs-4">
+                        <!--<date-bound ng-model="group.endDt" ng-change="dateUpdated(group,1)"></date-bound>-->
+                        <input type="date" ng-model="group.jsEndDt" class="form-control formField" ng-change="dateUpdated(group,1)">
+                    </div>
+
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-12 text-center">
+                        <button class="btn btn-success" style="width:90px;" ng-click="group.openEdit = false;">OK</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

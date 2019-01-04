@@ -1,0 +1,294 @@
+﻿<div ng-controller="WorkQueueCtrl as vm">
+    <div ng-show="vm.showWork">
+        <div ng-if="vm.appUser.isReviewer || vm.appUser.isWorker">
+
+            <div class="row bg-primary">
+                <div class="col-xs-3  {{vm.isSmallWidth ? 'medText' : ''}}" style="padding-top:10px;">
+                    <b>Your Earnings</b>
+                </div>
+                <div class="col-xs-6 text-center  {{vm.isSmallWidth ? 'smallText' : ''}}" style="padding-top:8px;">
+                    <span>
+                        Paid: {{vm.earnings.paid | currency}} &nbsp; Credit: {{vm.earnings.credit | currency}}&nbsp;
+
+                        <button type="button" class="btn btn-primary {{vm.isSmallWidth ? 'btn-sm' : ''}}" ng-click="vm.refreshEarnings()" title="Refresh Earnings">
+                            <span class="glyphicon glyphicon-refresh"></span>
+                        </button>
+
+                    </span>
+                </div>
+                <div class="col-xs-3  pull-right text-right ">
+                    <span class="btn-group" ng-if="vm.earnings.credit > 0" style="padding:4px;">
+                        <button type="button" class="btn btn-success {{vm.isSmallWidth ? 'btn-sm' : ''}}" ng-click="vm.payMeNow()" ng-if="vm.appUser.emailAddress && vm.appUser.emailAddress != ''">
+                            <span class="glyphicon glyphicon-usd"></span> {{vm.isSmallWidth ? 'Pay' : 'Pay Me Now'}}
+                        </button>
+                    </span>
+                </div>
+
+            </div>
+            <sspinner ng-if="vm.isPaying" text="Paying you now ..." padding="30"></sspinner>
+            <div class="row {{vm.isSmallWidth ? 'smallText' : ''}}">
+                <div class="col-xs-6">
+                    <div class="head3">Home</div>
+                </div>
+                <div class="col-xs-6 text-right">
+                    <br />
+                    <a href="#" ui-sref="master.workerPerformance" ng-if="vm.appUser.isReviewer">Worker Performance Report</a>
+                </div>
+            </div>
+            <!--Reviewer Queue -------------------------------------->
+            <div ng-if="vm.appUser.isReviewer">
+                <div>
+                    <div class="row {{vm.isSmallWidth ? 'smallText' : ''}}">
+                        <div class="col-xs-6"  ng-click="vm.sectHideR = !vm.sectHideR">
+                            <div class="glyphicon glyphicon-triangle-right" ng-if="vm.sectHideR"></div>
+                           <span class="head4">{{vm.wordFor("Review")}}</span>
+                        </div>
+                        <div class="col-xs-6 text-right" style="padding-top:8px;">
+                            <a href="#" ui-sref="master.idvWorkerPerformance({workerId: '{{vm.appUser.id}}',workerName: '{{vm.appUser.name}}', reviewType: 1, returnState: 'master.work' })">My Review History</a>
+                        </div>
+
+                    </div>
+
+                    <div class="row {{vm.isSmallWidth ? 'smallText' : ''}}" ng-if="!vm.sectHideR">
+                        <div class="col-xs-12" ng-if="vm.pendingreview">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading" ng-click="vm.panHideRP = !vm.panHideRP">
+                                    <div class="head5 text-center">Pending</div>
+                                </div>
+                                <div class="panel-body" ng-if="!vm.panHideRP">
+                                    <div class="list-group">
+                                        <table class="table table-hover ">
+                                            <tr ng-repeat="item in vm.uiItems |  filter: {section: 'pendingreview'}"
+                                                class="fakelink  {{(item.name.indexOf('Rejected') >= 0) ? 'bg-danger' : ''}}"
+                                                ng-click="vm.workOn(item, 1)">
+                                                <td>
+                                                    {{item.name}}
+                                                    <small>{{item.subname}}</small>
+                                                </td>
+                                                <td align="right">{{item.reward | currency}}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="panel panel-success">
+                                <div class="panel-heading"  ng-click="vm.panHideRA = !vm.panHideRA">
+                                    <div class="head5 text-center">Available</div>
+                                </div>
+                                <div class="panel-body" ng-if="!vm.panHideRA">
+                                    <span ng-if="!vm.readyreview">No review work is currently available.</span>
+                                    <table class="table table-hover" ng-if="vm.readyreview">
+                                        <tr>
+                                            <td><strong>Type</strong></td>
+                                            <td><strong>Worker</strong></td>
+                                            <td align="right"><strong>Reward</strong></td>
+                                            <td align="right"><strong># Available</strong></td>
+                                        </tr>
+                                        <tr ng-repeat="item in vm.uiItems |  filter: {section: 'readyreview'}"
+                                            class="fakelink " ng-click="vm.getNext(item, 1)">
+                                            <td>{{item.name}}</td>
+                                            <td>{{item.workerName}}</td>
+                                            <td align="right">{{item.reward | currency}}</td>
+                                            <td align="right">{{item.count}}</td>
+                                        </tr>
+                                    </table>
+
+                                </div>
+                                <div class="panel-footer" ng-if="!vm.panHideRP">
+                                    <div class="checkbox text-center">
+                                        <label>
+                                            <input type="checkbox" ng-model="vm.workcont" ng-change="vm.toggleWorkCont()"> Work continuously
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-xs-12" ng-if="vm.historyreview">
+                            <div class="panel panel-info">
+                                <div class="panel-heading"  ng-click="vm.panHideRH = !vm.panHideRH">
+                                    <div class="head5 text-center">History</div>
+                                </div>
+                                <div class="panel-body" ng-if="!vm.panHideRH">
+                                    <table class="table table-hover ">
+                                        <tr ng-repeat="item in vm.uiItems |  filter: {section: 'historyreview'} | orderBy: 'createdDt' :true  "
+                                            ng-click="vm.workOn(item, 1)">
+                                            <td>
+                                                {{item.name}}
+                                                <small>{{item.subname}}</small>
+                                            </td>
+                                            <td align="right">
+                                                {{item.reward | currency}}
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <br />
+                <br />
+            </div>
+
+
+            <!--Worker Queue -------------------------------------->
+            <div ng-if="vm.appUser.isWorker">
+
+                <div>
+                    <div class="row {{vm.isSmallWidth ? 'smallText' : ''}}">
+                        <div class="col-xs-3"  ng-click="vm.sectHideW = !vm.sectHideW">
+                            <div class="glyphicon glyphicon-triangle-right" ng-if="vm.sectHideW"></div>
+                            <span class="head4">{{vm.wordFor("Work")}}</span>
+                        </div>
+                        <div class="col-xs-5 text-center">
+                            <a href="https://shuristoragemedia.blob.core.windows.net/public/TrainingOverview.mp4" target="_blank"><i class="glyphicon glyphicon-facetime-video"></i> Getting Started As a Cloud Worker</a>
+                        </div>
+                        <div class="col-xs-4 text-right" style="padding-top:8px;">
+                            <a href="#" ui-sref="master.idvWorkerPerformance({workerId: '{{vm.appUser.id}}',workerName: '{{vm.appUser.name}}', reviewType: 0, returnState: 'master.workerPerformance' })">My Work History</a>
+                        </div>
+
+                    </div>
+
+                    <div class="row {{vm.isSmallWidth ? 'smallText' : ''}}"  ng-if="!vm.sectHideW">
+                        <div class="col-xs-12" ng-if="vm.pendingwork">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading"  ng-click="vm.panHideWP = !vm.panHideWP">
+                                    <div class="head5 text-center">Pending</div>
+                                </div>
+                                <div class="panel-body" ng-if="!vm.panHideWP">
+                                    <table class="table table-hover ">
+                                        <tr ng-repeat="item in vm.uiItems |  filter: {section: 'pendingwork'}"
+                                            class="fakelink  {{(item.name.indexOf('Rejected') >= 0) ? 'bg-danger' : ''}}"
+                                            ng-click="vm.workOn(item, shuri_enums.reviewtype.none)">
+                                            <td>
+                                                {{item.name}}
+                                                <small>{{item.subname}}</small>
+                                            </td>
+                                            <td align="right">{{item.reward | currency}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="panel panel-success">
+                                <div class="panel-heading"  ng-click="vm.panHideWA = !vm.panHideWA">
+                                    <div class="head5 text-center">Available</div>
+                                </div>
+                                <div class="panel-body" ng-if="!vm.panHideWA">
+                                    <span ng-if="!vm.readywork">No work found.</span>
+                                    <table class="table table-hover " ng-if="vm.readywork">
+                                        <tr>
+                                            <td><strong>Type</strong></td>
+                                            <td align="right"><strong>Reward</strong></td>
+                                            <td align="right"><strong># Available</strong></td>
+                                        </tr>
+                                        <tr ng-repeat="item in vm.uiItems |  filter: {section: 'readywork'} | orderBy: ['subId', 'typeName']"
+                                            class="fakelink " ng-click="vm.getNext(item, shuri_enums.reviewtype.none)">
+                                            <td>{{item.name}}</td>
+                                            <td align="right">{{item.reward | currency}}</td>
+                                            <td align="right">{{item.count}}</td>
+                                        </tr>
+                                    </table>
+
+                                </div>
+                                <div class="panel-footer" ng-if="vm.readywork && !vm.panHideRP">
+                                    <div class="checkbox text-center">
+                                        <label>
+                                            <input type="checkbox" ng-model="vm.workcont" ng-change="vm.toggleWorkCont()"> Work continuously
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <br />
+            <br />
+
+            <div ng-if="vm.appUser.isReviewer">
+
+                <!-- Queue Details -------------------------------------->
+                <div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="glyphicon glyphicon-triangle-right" ng-if="vm.sectHideS"></div>
+                          <span class="head4" ng-click="vm.sectHideS = !vm.sectHideS">Queue Summary</span>
+                        </div>
+                    </div>
+
+                    <div class="row {{vm.isSmallWidth ? 'smallText' : ''}}" ng-if="!vm.sectHideS">
+                        <div class="col-xs-12">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading" ng-click="vm.panHideQS = !vm.panHideQS">
+                                    <div class="head5 text-center">Click to View Detail</div>
+                                </div>
+                                <div class="panel-body"  ng-if="!vm.panHideQS">
+                                    <table class="table table-hover">
+                                        <tr>
+                                            <td><strong>Work Type</strong></td>
+                                            <td><strong>Queue</strong></td>
+                                            <td align="right"><strong># Available</strong></td>
+                                        </tr>
+                                        <tr ng-repeat="item in vm.uiItemSummary | orderBy: ['typeName', 'reviewType']"
+                                            class="fakelink " ng-click="vm.viewQueueDetail(item.typeName, item.reviewType, item.subId)">
+                                            <td>{{item.typeName}}</td>
+                                            <td>{{(item.reviewType == 0) ? "Work" : (item.reviewType == 1) ? "Review" : "Expert" }}</td>
+                                            <td align="right">{{item.count}}</td>
+                                        </tr>
+                                    </table>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <br />
+                <hr />
+            </div>
+
+
+
+            <div class="row bg-primary">
+                <div class="col-xs-12 text-center">
+                    <h5>Thank you for being a Shuri Worker!</h5>
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+
+
+        <br />
+        <div class="alert alert-danger text-center" role="alert" ng-if="!(vm.appUser.isReviewer || vm.appUser.isWorker)">
+            <br /> <h4>You must be a worker to access this page.</h4>
+        </div>
+
+
+
+
+
+    </div>
+    <sspinner ng-if="!vm.showWork" text="Refreshing Work ..." padding="120"></sspinner>
+
+</div>
+

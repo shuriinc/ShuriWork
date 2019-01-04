@@ -1,0 +1,69 @@
+﻿<div class="panel panel-success">
+    <div class="panel-heading">
+        <h3 class="panel-title">Tags</h3>
+    </div>
+    <div class="panel-body">
+
+        <!-- Search Bar -->
+        <div class="row">
+            <div class="col-xs-12 " style="padding-bottom:16px;">
+                <input id="inputAdd" ng-model="searcher.searchString" type="text" class="form-control" placeholder="Search by tag"
+                       onmouseup="this.select();" ng-focus="resetHideResults()" ng-keyup="keyPressedAdd($event, this)" />
+
+            </div>
+
+        </div>
+
+        <!-- Search Results-------------------------->
+        <div ng-if="showSearchResults" class="row">
+            <div class="col-xs-12 ">
+                <div ng-if="!searching">
+                    <div class="list-group" ng-if="results && results.length > 0">
+                        <div ng-repeat="result in results | orderBy: ['sorter','name']">
+                            <div class="row list-group-item text-nowrap {{result.hover ? 'list-group-item-info' : ''}}"
+                                 ng-mouseover="result.hover=true;"
+                                 ng-click="itemSelected(result);"
+                                 ng-mouseout="result.hover=false;">
+                                <div class="col-xs-12">{{result.name}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="!results || results.length == 0">{{searcher.searchString}} not found. </div>
+                </div>
+
+                <div ng-if="searching">Searching... </div>
+
+            </div>
+
+        </div>
+
+        <!-- Item List -------------------------->
+        <div ng-if="!showSearchResults">
+            <div class="row" style="padding:6px;">
+                <div class="col-xs-12 ">
+                    <div class="list-group" ng-if="tags.length > 0">
+                        <div>
+                            <div class="row text-nowrap list-group-item list-group-item-success"
+                                 ng-repeat="enty in tags  | orderBy: ['name']">
+                                 <div class="col-xs-10">
+                                    <span>{{enty.name}}</span>
+                                </div>
+                                <div class="col-xs-2" ng-click="remove($event, enty)">
+                                    <div class=" text-right" style="width:100%">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--  empty list -->
+                    <div ng-if="!tags" class="itemLabel">
+                        No tags
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

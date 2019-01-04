@@ -1,0 +1,159 @@
+﻿<div ng-controller="ApiDocsCtrl as vm" class="padBottom">
+    <div ng-include="'/templates/apidocs/apiNav.html'"></div>
+    <sspinner ng-if="!vm.loadComplete" text="Loading ..." padding="120"></sspinner>
+    <div ng-show="vm.loadComplete">
+
+        <div class="row">
+            <div class="col-md-10">
+                <h4>ContactPoints</h4>
+                ContactPoints are things like email addresses, phone numbers, urls, etc. ContactPoints are associated to people and groups. 
+                The <span class="tokenize">name</span> field of a contactPoint contains its actual value.
+                How it is displayed and handled is determined by the primitive.
+
+                Every contactPoint has one usertype and that usertype will be of one of the available contactPoint primitive types, listed below.
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10 nudge">
+                <br />
+                <table class="table table-condensed small">
+                    <thead>
+                        <tr>
+                            <th class="Resource">
+                                Resource
+                            </th>
+                            <th class="">
+                                Description
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="">
+                            <td class="Resource">
+                                <a href="">GET contactpoints</a>
+                                <div style="margin-left:30px;">
+                                    ?entityType=<span class="tokenize">[ entityType ]</span><br />
+                                    &entityId=<span class="tokenize">[ id ]</span>
+                                </div>
+                            </td>
+                            <td class="">
+                                Returns an array of all <a href="/APIDocs/ShowProto" target="_blank">contact points</a> that are related to the entity requested.  Paginated.
+                            </td>
+                        </tr>
+                        <tr class="">
+                            <td class="Resource">
+                                <a href="">GET contactpoint</a>?id=<span class="tokenize">[ id ]</span>
+                            </td>
+                            <td class="">
+                                Returns a fully hydrated contact point.
+                            </td>
+                        </tr>
+                        <tr class="">
+                            <td class="Resource">
+                                <a href="">POST contactpoints</a>
+                                <div style="margin-left:30px;">
+                                    ?subscriptionId=<span class="tokenize">[ group id ]</span>
+                                </div>
+                            </td>
+                            <td class="">
+                                Create a new <a href="/APIDocs/ShowProto" target="_blank">contact point</a> in the collection requested or the user's private collection by default.
+                                If the id is empty a create occurs, else an update to the existing record.
+                            </td>
+                        </tr>
+                        <tr class="">
+                            <td class="Resource">
+                                <a href="">DELETE contactpoint</a>
+                            </td>
+                            <td class="">
+                                Deletes an existing <a href="/APIDocs/ShowProto" target="_blank">contact point</a>.  The contact point and all of it's relations are permanently deleted. User must own the contact point or be a member of the owning group.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10">
+                <br />
+                <h4>ContactPoint Primitives</h4>
+                All contactPoint usertypes must be defined as one of the primitives.  
+                <br />
+                <br />
+                <table class="table table-condensed table-striped small">
+                    <tr>
+                        <th nowrap>
+                            Primitive Name
+                        </th>
+                        <th>Description and Usage</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            PrimaryEmail
+                        </td>
+                        <td>Main email address for a person or organization</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Email
+                        </td>
+                        <td>Any other email address</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Phone
+                        </td>
+                        <td>Any phone number - should be complete + international-dial-compliant </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Url
+                        </td>
+                        <td>Any web url associated to any person or organization</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            SMHandle
+                        </td>
+                        <td>Any social media handle, such as a Twitter screenname, Facebook, LinkedIn.  The API provides public UserTypes for the most common social media. See below. </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <hr />
+        <div class="row" id="divJson" style="display:none;">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+
+                    <span id="spanJsonHead"></span>
+                </div>
+                <div class="panel-body">
+                    <b>Your ContactPoint UserTypes</b><br />
+                    <div style="padding-right:160px;">
+                        <table class="table table-bordered table-condensed table-striped ">
+                            <thead>
+                                <tr>
+                                    <th class="">
+                                        Name
+                                    </th>
+                                    <th class="">
+                                        Subscription
+                                    </th>
+                                    <th class="">
+                                        Primitive
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbUTs"></tbody>
+                        </table>
+                    </div><br />
+                    <b>Raw Json</b><br />
+                    <pre id="spanJson"></pre>
+                    <span id="spanTable"></span>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>

@@ -1,0 +1,106 @@
+﻿<div ng-controller="idvWorkerPerformanceCtrl as vm">
+    <div class="row itemPadding">
+        <div class="col-xs-6">
+            <h4>{{vm.workerName}} {{vm.reviewerWord}} History</h4>
+        </div>
+        <div class="col-xs-3 text-right">
+            <div style="white-space:nowrap"><input type="checkbox" ng-model="vm.showCompare" /> Compare</div>
+        </div>
+        <div class="col-xs-3 text-right"  ng-click="vm.return();">
+            <a href="#">Return</a>
+        </div>
+
+    </div>
+
+    <style>
+        .forceBottom {
+            vertical-align: bottom !important;
+        }
+    </style>
+
+
+    <sspinner ng-if="!vm.showRpt" text="Loading history ..." padding="120"></sspinner>
+    <div ng-if="vm.showRpt">
+        <form role="form" class="form-horizontal" method="post">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-condensed   {{vm.isSmallWidth ? 'medText' : ''}}">
+                        <tr class="bg-success  {{vm.isSmallWidth ? 'smallText' : 'medText'}}">
+                            <td class="bold forceBottom bg-info h5" rowspan="2">Task</td>
+                           <td class="bold" align="center" colspan="5" nowrap>
+                                Beginning
+                                <input type="date" ng-model="vm.dtStart1" style="width:120px;"/>&nbsp;&nbsp;&nbsp;
+                                Ending
+                               <input type="date" ng-model="vm.dtEnd1" style="width:120px;" />
+                               <button class="btn btn-sm btn-primary" ng-click="vm.refreshData();">Go</button>
+                            </td>
+                            <td ng-if="vm.showCompare" class="bold bg-warning" align="center" colspan="5" nowrap>
+                                Beginning
+                                <input type="date" ng-model="vm.dtStart2" style="width:120px;" />&nbsp;&nbsp;&nbsp;
+                                Ending
+                                <input type="date" ng-model="vm.dtEnd2" style="width:120px;" />
+                                <button class="btn btn-sm btn-primary" ng-click="vm.refreshData();">Go</button>
+                            </td>
+                        </tr>
+                        <tr class="bg-success">
+                            <td class="bold  " align="right" valign="bottom">Completed</td>
+                            <td class="bold  " align="right" valign="bottom">Earnings</td>
+                            <td class="bold " align="right" valign="bottom">Hourly*</td>
+                            <td class="bold " align="right" valign="bottom">Ave Time</td>
+                            <td class="bold " align="right" valign="bottom">Apprv Rate</td>
+                            <td ng-if="vm.showCompare" class="bold  bg-warning" align="right" valign="bottom">Completed</td>
+                            <td ng-if="vm.showCompare" class="bold  bg-warning" align="right" valign="bottom">Earnings</td>
+                            <td ng-if="vm.showCompare" class="bold  bg-warning" align="right" valign="bottom">Hourly*</td>
+                            <td ng-if="vm.showCompare" class="bold  bg-warning" align="right" valign="bottom">Ave Time</td>
+                            <td ng-if="vm.showCompare" class="bold  bg-warning" align="right" valign="bottom">Apprv Rate</td>
+                        </tr>
+                        <tr ng-repeat="tsk in vm.data.tbl | orderBy: 'task'"  ng-class="(tsk.task == 'Total') ? 'bgLight': '' ">
+                            <td ng-class="(tsk.task == 'Total') ? 'bold': '' ">
+                                {{tsk.task}}
+                            </td>
+                            <td ng-class="(tsk.task == 'Total') ? 'bold': '' " align="right">
+                                {{tsk.tasksCount1}}
+                            </td>
+                            <td ng-class="(tsk.task == 'Total') ? 'bold': '' " align="right">
+                                {{tsk.tasksCredit1 + tsk.tasksPaid1 | currency}}
+                            </td>
+                            <td ng-class="(tsk.task == 'Total') ? 'bold': '' " align="right">
+                                <div ng-if="vm.validHourly(tsk)">{{tsk.hourlyPay1 | currency}}</div>
+                            </td>
+                            <td ng-class="(tsk.task == 'Total') ? 'bold': '' " align="right">
+                                <div ng-if="(tsk.task != 'Total')"> {{tsk.avemin1 | timepad}}:{{tsk.avesec1 | timepad}}</div>
+                            </td>
+                            <td ng-class="(tsk.task == 'Total') ? 'bold': '' " align="right">
+                                {{tsk.approvalRate1 | number:0}}%
+                            </td>
+                            <td ng-if="vm.showCompare" ng-class="(tsk.task == 'Total') ? 'bold': '' " align="right">
+                                {{tsk.tasksCount2}}
+                            </td>
+                            <td ng-if="vm.showCompare" ng-class="(tsk.task == 'Total') ? 'bold': '' " align="right">
+                                {{tsk.tasksCredit2 + tsk.tasksPaid2 | currency}}
+                            </td>
+                            <td ng-if="vm.showCompare" ng-class="(tsk.task == 'Total') ? 'bold': '' " align="right">
+                                <div ng-if="vm.validHourly(tsk)">{{tsk.hourlyPay2 | currency}}</div>
+                            </td>
+                            <td ng-if="vm.showCompare" ng-class="(tsk.task == 'Total') ? 'bold': '' " align="right">
+                                <div ng-if="(tsk.task != 'Total')"> {{tsk.avemin2 | timepad}}:{{tsk.avesec2 | timepad}}</div>
+                            </td>
+                            <td ng-if="vm.showCompare" ng-class="(tsk.task == 'Total') ? 'bold': '' " align="right">
+                                {{tsk.approvalRate2 | number:0}}%
+                            </td>
+                        </tr>
+                    </table>
+
+
+
+                </div>
+            </div>
+
+            <br /><div class="alert alert-warning alert-dismissible" ng-if="false">
+                * Time capture was missing or inaccurate for the first couple of weeks, so hourly pay for the early tasks and total are not shown.   PersonUpdate time capture IS accurate and represents the bulk of the work since then.
+            </div>
+            </form>
+</div>
+</div>
+

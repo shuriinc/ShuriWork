@@ -1,0 +1,164 @@
+﻿<!-- Contact Points ------------------------------------------------------------------------------------------------ -->
+<div ng-repeat="cp in entity.contactPoints  | orderBy: ['uiSection', 'primitivename', 'typename']">
+    <div class="form-group row">
+        <div class="col-xs-12" ng-if="!isUpdate">
+            <div class="control-label" ng-if="!cp.url">
+                <small>{{cp.typename}}</small><br />
+                {{cp.name}}
+            </div>
+            <a class="control-label" ng-if="cp.url" href="{{cp.url}}" target="_blank">
+                <small>{{cp.typename}}</small><br />
+                {{cp.name}}
+            </a>
+        </div>
+        <div class="col-xs-12 " ng-if="isUpdate">
+            <div ng-if="cp.searchUrl2" class="fakelink fakelinkBlue" ng-click="showUrl(cp.searchUrl2)">
+                {{cp.typename}}
+            </div>
+            <label ng-if="!cp.searchUrl2" class="control-label">
+                {{cp.typename}}
+            </label>
+            <div ng-if="!cp.hasUrl && !cp.canSearch">
+                <input class="form-control" type="{{cp.inputType}}" ng-model="cp.name" ng-change="cp.changeType = 1;" />
+            </div>
+            <div class="input-group" ng-if="cp.hasUrl || cp.canSearch">
+                <div class="input-group-addon fakelink"
+                     ng-click="showUrl(cp.url);"
+                     ng-if="cp.hasUrl">
+                    <i class="glyphicon glyphicon-link"></i>
+                </div>
+                <input class="form-control" type="{{cp.inputType}}" ng-model="cp.name" ng-change="cp.changeType = 1;" />
+                <div class="input-group-addon "
+                     ng-if="cp.canSearch"
+                     ng-click="showUrl(cp.searchUrl)">
+                    <i class="glyphicon glyphicon-search fakelink"></i>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Documents ------------------------------------------------------------------------------------------------ -->
+<div ng-repeat="doc in entity.documents | filter: { primitivename: '!object'} | orderBy: ['uiSection', 'typename']">
+    <!-- Text  Primitives -->
+    <div class="form-group row" ng-if="doc.uiSection == 'textprimitives'">
+        <div class="col-xs-12" ng-if="!cp.url">
+            <label class="control-label">
+                {{doc.typename}}
+            </label>
+            <input class="form-control" type="text" ng-model="doc.value" select-on-click ng-change="doc.changeType = 1;" />
+        </div>
+    </div>
+
+    <!-- Known  Primitives -->
+    <div class="form-group row" ng-if="doc.uiSection == 'otherprimitives'">
+        <!--  Primitive:  Integer ---------------------------------------------------------------- -->
+        <div class="col-xs-12" ng-if="(doc.primitivename == 'CustomInteger' && isUpdate)">
+            <label class="control-label">{{doc.typename}}</label>
+            <input class="form-control" type="text" ng-model="doc.value" ng-change="doc.changeType = 1;" />
+        </div>
+        <div class="col-xs-12" ng-if="(doc.primitivename == 'CustomInteger' && !isUpdate)">
+            <label class="control-label">{{doc.typename}}</label>
+            {{doc.value | number}}
+        </div>
+        <!--  Primitive:  LongText----------------------------------------------------------------- -->
+        <div class="col-xs-12" ng-if="(doc.primitivename == 'CustomLongText' && isUpdate)">
+            <label class="control-label">{{doc.typename}}</label>
+            <textarea class="form-control" type="text" rows="5" ng-model="doc.value" ng-change="doc.changeType = 1;"></textarea>
+        </div>
+        <div ng-if="(doc.primitivename == 'CustomLongText' && !isUpdate)" class="control-label">
+            <label>{{doc.typename}}</label>
+            {{doc.value}}
+        </div>
+
+        <!-- Rating0to5--------------------------------------------------------------------- -->
+        <!--<div class="col-xs-12" ng-if="(doc.primitivename == 'Rating0to5') && forExpert">
+            <label class="control-label" tooltip-placement="right" tooltip="{{doc.userTypeValue}}">{{doc.typename}} </label><br />
+            <rating style="font-size:1.5em;" ng-model="doc.value" max="5" readonly="false" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+        </div>-->
+        <!-- Rating0to100--------------------------------------------------------------------- -->
+        <!--<div class="col-xs-12" ng-if="(doc.primitivename == 'Rating0to100') && forExpert">
+            <label class="control-label" tooltip-placement="right" tooltip="{{doc.userTypeValue}}">{{doc.typename}} </label><br />
+            <div>{{doc.value}} </div>
+            <input type="range" name="{{doc.typename}}" min="0" max="100" ng-model="doc.value" ng-disabled="!isUpdate">
+        </div>-->
+
+    </div>
+
+    <!-- Specific Types-->
+    <div class="form-group row" ng-if="doc.uiSection == 'unique'">
+        <!-- TimeZone-->
+        <div class="col-xs-12" ng-if="doc.typename == 'Time Zone'">
+            <label class="control-label">
+                {{doc.typename}}
+            </label>
+            <select class="form-control" ng-options="item.Id as item.DisplayName for item in timezones" ng-model="doc.value" ng-disabled="!isUpdate" ng-change="doc.changeType = 1;"></select>
+        </div>
+    </div>
+
+</div>
+
+<br />
+
+<!-- LOCATIONS ------------------------------------------------------------------------------>
+<div class="row form-group">
+    <div class="col-xs-12">
+        <label class="control-label">{{wordFor("Locations")}}</label>
+        <button type="button" class="btn btn-primary btn-xs" ng-click="showLocEdit = true;">
+            <i class=" glyphicon glyphicon-plus"></i>
+            {{wordFor("Add New")}} {{wordFor("Location")}}
+        </button>
+    </div>
+</div>
+
+<div ng-if="showLocEdit">
+    <div class="form-group row">
+        <div class="col-xs-12">
+            <div class="input-group">
+                <input class="form-control" ng-model="modeladdress" type="text" ng-change="userAddressChanged(modeladdress)" select-on-click />
+                <div class="input-group-addon fakelink" ng-click="showBrowser('location');"><i class="glyphicon glyphicon-pushpin"></i></div>
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-xs-12">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-danger" ng-click="cancelLoc()" ng-show="hasmap">
+                    <span class="glyphicon glyphicon-remove"></span> Cancel
+                </button>
+                <button type="button" class="btn btn-success" ng-click="saveLoc()" ng-show="hasmap">
+                    <span class="glyphicon glyphicon-ok"></span> Save
+                </button>
+                <button type="button" class="btn btn-primary" ng-click="getAddress(modeladdress)" ng-show="!hasmap">
+                    <span class="glyphicon glyphicon-pushpin"></span> Resolve Address
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="form-group row">
+    <div class="col-xs-12" ng-show="hasmap">
+        <div ng-if="locSummary" class="medText">Resolved as: {{locSummary}}</div>
+        <div id="mapcanvas" style="height:420px;"></div>
+    </div>
+</div>
+
+<div class="row form-group"
+     ng-repeat="loc in entity.locations | filter: {changeType: '!2'} | orderBy: 'primitive'">
+    <div class="col-xs-12">
+        <div class="input-group">
+            <input class="form-control" type="text" disabled ng-model="loc.address" />
+            <div class="input-group-addon "
+                 ng-click="deleteLoc(loc)">
+                <i class="glyphicon glyphicon-trash fakelink"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

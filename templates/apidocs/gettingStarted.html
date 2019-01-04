@@ -1,0 +1,25 @@
+﻿<div ng-controller="ApiDocsCtrl as vm" class="padBottom">
+    <div ng-include="'/templates/apidocs/apiNav.html'"></div>
+    <sspinner ng-if="!vm.loadComplete" text="Loading ..." padding="120"></sspinner>
+    <div ng-show="vm.loadComplete">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <h3>Getting Started</h3>
+                In order to use the API, developers should get a basic understanding of the Relationship Management Model and acquire an API key.  Without an API key, it is not possible to use the API.
+                <a ng-if="false" ui-sref="master.apiKey">Get a key here.</a><br /><br />
+                <h4>The Model</h4>
+                API Resources map very closely to the Model.  Entity objects exposed by the model are documented for javascript in <span class="tokenize">js/shuriModels.js</span>. <br /><br />
+                <!--<a ng-click="vm.showModelText()">Click to view js/shuriModels.js</a><br />-->
+                <div ng-if="vm.modelText">
+                    <pre>{{vm.modelText}}</pre>
+                </div><br />
+                <h4>Security</h4>
+                API Resources are secured and only available via  <span class="tokenize">https:</span>.  The API employs OAuth authentication.  
+                Your app must login to acquire a bearer token from the API before performing any other non-trivial resource request.
+                Include an authorization header with "Bearer " + the token.  See the Login resource for more information.
+
+            </div>
+        </div>
+    </div>
+</div>

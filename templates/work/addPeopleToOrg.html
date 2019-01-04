@@ -1,0 +1,67 @@
+﻿<div ng-controller="AddPeopleToOrgCtrl as vm">
+    <sspinner ng-if="vm.showSpinner" text="{{vm.spinnerText}}" padding="120"></sspinner>
+    <div ng-if="!vm.showSpinner">
+        <div class="row  bg-info itemPadding" ng-if="!vm.isTechInvest">
+            <div class="col-xs-6">
+                <i class="glyphicon glyphicon-book"></i> Database:&nbsp;&nbsp;
+                <a href="https://shuristoragecdn.blob.core.windows.net/workers/ARSubscription.pdf" target="_blank">Analyst Relations</a>
+            </div>
+            <div class="col-xs-6 text-right">
+                <i class="glyphicon glyphicon-question-sign"></i> Instructions:&nbsp;&nbsp;
+                <a href="https://shuristoragemedia.blob.core.windows.net/public/AddPeopleToOrg.mp4" target="_blank"><i class="glyphicon glyphicon-facetime-video"></i> Video</a>&nbsp;&nbsp;&nbsp;
+            </div>
+        </div>
+        <div class="row  bg-success itemPadding" ng-if="vm.isTechInvest">
+            <div class="col-xs-6">
+                <i class="glyphicon glyphicon-book"></i> Database:&nbsp;&nbsp;Tech Investors
+            </div>
+            <div class="col-xs-6 text-right">
+                <i class="glyphicon glyphicon-question-sign"></i> Instructions:&nbsp;&nbsp;
+                <a href="https://shuristoragemedia.blob.core.windows.net/public/AddPeopleToOrg.mp4" target="_blank"><i class="glyphicon glyphicon-facetime-video"></i> Video</a>&nbsp;&nbsp;&nbsp;
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-8">
+                <h3>
+                    AddPeopleToOrg - {{vm.org.name}} &nbsp;&nbsp;&nbsp; <button type="button" class="btn btn-warning" ng-click="vm.showBrowser()" ng-if="vm.org">
+                        <span class="glyphicon glyphicon-search"></span> Find People
+                    </button>
+                </h3>
+
+            </div>
+            <div class="col-xs-4">
+                <!--<page-timer></page-timer>-->
+
+            </div>
+        </div>
+
+        <form role="form" class="form-horizontal" method="post">
+
+            <entity-people entity="vm.org" db-id="vm.dbId" forupdate="true" showavatar="true"></entity-people>
+
+            <br />
+            <br />
+
+
+            <!--<div class="row">
+                <div class="col-xs-12 text-center">
+                    <button class="btn btn-success" ng-click="vm.saveOnly()"><i class="glyphicon glyphicon-save"></i> Save And Come Back Later</button><br />&nbsp;
+                </div>
+            </div>-->
+            <div class="row">
+                <div class="col-xs-12">
+
+
+                    <work-block modelobj="vm.org" entity-type="9" entity-id="vm.org.id" ></work-block>
+
+
+                </div>
+            </div>
+
+
+
+        </form>
+    </div>
+</div>
+

@@ -1,0 +1,173 @@
+﻿<div ng-controller="ApiDocsCtrl as vm" class="padBottom">
+    <div ng-include="'/templates/apidocs/apiNav.html'"></div>
+    <sspinner ng-if="!vm.loadComplete" text="Loading ..." padding="120"></sspinner>
+    <div ng-show="vm.loadComplete">
+
+
+        <div class="row">
+            <div class="col-md-9">
+                <h4>Documents</h4>
+                The entity named <b><i>Document<sup class="small">*</sup></i></b> is used within the API in the very broad sense of: <i>all attributes other than Contact Point, Location, or Tag</i>.
+                <br /><br />
+
+                Documents, along with the robust set of pre-defined document UserTypes provide flexibility and extensibility to The API.  
+                The Document field <span class="tokenize">value</span> stores up to 4000 characters, of which the first 900 are indexed.
+                <br /><br />
+                Documents are used to store custom fields, files, notes, ratings, and other data types which are defined by the primitive per the document's usertype.
+                Documents can be related to a person, organization, touch, a person on a particular touch, and/or belong to a private group.
+                Every document has one usertype and that usertype will be of one of the available document primitive types, listed below.
+                <br /><br />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10 nudge">
+                <br />
+                <table class="table table-condensed small">
+                    <thead>
+                        <tr>
+                            <th class="Resource">
+                                Resource
+                            </th>
+                            <th class="">
+                                Description
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="">
+                            <td class="Resource">
+                                <a href="">GET document</a>?id=<span class="tokenize">[ id ]</span>
+                            </td>
+                            <td class="">
+                                Returns a fully hydrated document.
+                            </td>
+                        </tr>
+                        <tr class="">
+                            <td class="Resource">
+                                <a href="">POST documents</a>
+                                <div style="margin-left:30px;">
+                                    ?subscriptionId=<span class="tokenize">[ group id ]</span>
+                                </div>
+                            </td>
+                            <td class="">
+                                Create a new <a href="/APIDocs/ShowProto" target="_blank">document</a> in the collection requested or the user's private collection by default.
+                                If the id is empty a create occurs, else an update to the existing record.
+                            </td>
+                        </tr>
+                        <tr class="">
+                            <td class="Resource">
+                                <a href="">DELETE document</a>
+                            </td>
+                            <td class="">
+                                Deletes an existing <a href="/APIDocs/ShowProto" target="_blank">document</a>.  The document and all of it's relations are permanently deleted. User must own the document or be a member of the owning group.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-9">
+                <div class="small">* The entity name <b><i>Document</i></b> was chosen instead of <b><i>Attribute</i></b> because <b><i>Attribute</i></b> is a
+                key word in many technologies.</div>
+            </div>
+        </div>
+       <div class="row">
+            <div class="col-md-10">
+                <br />
+                <h4>Document Primitives</h4>
+                All document usertypes must be defined as one of the primitives.  Documents have a name (140 characters max) and a value (4000 characters max.)  What each contains and how it is displayed and handled is determined by the primitive.
+                <br />
+                <br />
+                Primitives make it easy for developers extend the API to capture any information or media required in their solution.
+                <table class="table table-condensed table-striped small">
+                    <tr>
+                        <th>
+                            Primitive Name
+                        </th>
+                        <th>Description and Usage</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            Note
+                        </td>
+                        <td>Simple name-value pair</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            File
+                        </td>
+                        <td>Name is the human-friendly name; Value contains a Json File structure  //TBD</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Text
+                        </td>
+                        <td>Field holding text and expecting a single-line for input and display; Value holds the text;  Name can hold the label or be blank (the usertype name is the label)  </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            LongText
+                        </td>
+                        <td>Field holding text and expecting multiple lines for input and display; Value holds the text;  Name can hold the label or be blank (the usertype name is the label)  </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Integer
+                        </td>
+                        <td>Field for numeric integers.  Value holds the number;  Name can hold the label or be blank (the usertype name is the label)  </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Float
+                        </td>
+                        <td>Field for non-integer numbers.  Value holds the number;  Name can hold the label or be blank (the usertype name is the label)  </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Date
+                        </td>
+                        <td>Field for non-integer numbers.  Value holds the date;  Name can hold the label or be blank (the usertype name is the label)  </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            RatingYesNo
+                        </td>
+                        <td>Field for  binary rating like Thumb Up/Down.  Value holds either 0 or 1;  Name can hold the label or be blank (the usertype name is the label)  </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            RatingYesNoMaybe
+                        </td>
+                        <td>Field for three-mode rating.  Value holds either 0, 1, or 2;  Name can hold the label or be blank (the usertype name is the label)  </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Rating0to5
+                        </td>
+                        <td>Field for scale of 1-5 rating, i.e. stars.  Or 0, which is 'not rated'. Value holds integer 0 to 5;  Name can hold the label or be blank (the usertype name is the label)  </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Rating0to100
+                        </td>
+                        <td>Field for scale of 1-100 rating.  Or 0, which is 'not rated'. Value holds integer 0 to 100;  Name can hold the label or be blank (the usertype name is the label)  </td>
+                    </tr>
+                    <tr>
+                        <td>CurrencyUS </td>
+                        <td>Field for money in US dollars.  Value holds the dollar amount;  Name can hold the label or be blank (the usertype name is the label) </td>
+                    </tr>
+                   <tr>
+                        <td>
+                            Object
+                        </td>
+                        <td>Value holds a JSON object</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+</div>

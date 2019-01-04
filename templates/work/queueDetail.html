@@ -1,0 +1,57 @@
+﻿<div ng-controller="WorkQueueDetailCtrl as vm">
+    <div ng-show="vm.showWork">
+        <div ng-if="vm.appUser.isReviewer">
+
+            <div class="row">
+                <div class="col-xs-6 h4">
+                    <span>Queue Detail</span>
+                </div>
+                <div class="col-xs-6 text-right h5">
+                    <span>Queue: {{(vm.reviewType == 0) ? "Work" : (vm.reviewType == 1) ? "Review" : "Expert" }}</span>
+                </div>
+            </div>
+
+            <div class="row {{vm.isSmallWidth ? 'smallText' : ''}}">
+                <div class="col-xs-12">
+                    <table class="table table-hover ">
+                        <tr>
+                            <td><strong>Work</strong></td>
+                            <td><strong>Worker</strong></td>
+                            <td><strong>Date</strong></td>
+                            <td><strong>Reviewer</strong></td>
+                            <td><strong>Date</strong></td>
+                        </tr>
+                        <tr ng-repeat="item in vm.touches | orderBy: ['createdDt']"
+                            class="fakelink "
+                            ng-click="vm.workOn(item)">
+                            <td>
+                                {{item.name}} {{item.id}}
+                            </td>
+                            <td>{{item.createdByName}}</td>
+                            <td>{{item.createdDt | date:'short'}}</td>
+                            <td>{{item.modifiedByName}}</td>
+                            <td>{{item.modifiedDt| date:'short'}}</td>
+                        </tr>
+                    </table>
+
+                </div>
+
+
+
+
+                <br />
+                <div class="alert alert-danger text-center" role="alert" ng-if="!(vm.appUser.isReviewer )">
+                    <br /> <h4>You must be a reviewer to access this page.</h4>
+                </div>
+
+
+
+
+
+            </div>
+            <sspinner ng-if="!vm.showWork" text="Refreshing Work ..." padding="120"></sspinner>
+
+        </div>
+    </div>
+</div>
+

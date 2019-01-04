@@ -1,0 +1,144 @@
+﻿<div ng-controller="WorkerPerformanceCtrl as vm">
+    <sspinner ng-if="!vm.showRpt" text="Running report ..." padding="120"></sspinner>
+    <div ng-if="vm.showRpt">
+        <h4>Workers Performance Report</h4>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="panel-title">Workers</div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="list-group">
+                            <table class="table table-condensed table-hover medText">
+                                <tr class="bgLight">
+                                    <td class="bold">Name</td>
+                                    <td class="bold"></td>
+                                    <td class="bold" align="right">Total</td>
+                                    <td class="bold" align="right">Rej</td>
+                                    <td class="bold" align="right">Apprv Rate</td>
+                                </tr>
+                                <tr ng-repeat="worker in vm.data.tblWorker | orderBy: ['sorter', 'task']"
+                                    
+                                    ng-show="worker.task == ' Total' || worker.showme"
+                                    class="{{(worker.showme) ? 'bgLight' : ''}}">
+                                    <td>
+                                        <div ng-if="worker.task == ' Total' ">
+                                            <i class="glyphicon {{(worker.showDetail) ? 'glyphicon-minus' : 'glyphicon-plus'}} " ng-click="vm.toggleDetail('tblWorker', worker)"></i>
+                                            <a href="#" ui-sref="master.idvWorkerPerformance({workerId: '{{worker.person_Id}}',workerName: '{{worker.name}}', reviewType: 0, returnState: 'master.workerPerformance' })">{{worker.name}}</a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div ng-if="worker.task != ' Total' ">
+                                            {{worker.task}}
+                                        </div>
+                                    </td>
+                                    <td align="right">{{worker.tasksWorker | number:0}}</td>
+                                    <td align="right">{{worker.rejected | number: 0}}</td>
+                                    <td align="right">{{worker.approvalRate | number:1}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <div class="panel-title">Reviewers</div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="list-group">
+                            <table class="table table-condensed medText">
+                                <tr class="bgLight">
+                                    <td class="bold">Name</td>
+                                    <td class="bold"></td>
+                                    <td class="bold" align="right">Total</td>
+                                    <td class="bold" align="right">Rej</td>
+                                    <td class="bold" align="right">Apprv Rate</td>
+                                </tr>
+                                <tr ng-repeat="worker in vm.data.tblReviewer  | orderBy: ['sorter', 'task']"
+                                    
+                                    ng-show="worker.task == ' Total' || worker.showme"
+                                    class="{{(worker.showme) ? 'bgLight' : ''}}">
+                                    <td>
+                                        <div ng-if="worker.task == ' Total' ">
+                                            <i class="glyphicon {{(worker.showDetail) ? 'glyphicon-minus' : 'glyphicon-plus'}}" ng-click="vm.toggleDetail('tblReviewer', worker)"></i>
+                                            <a href="#" ui-sref="master.idvWorkerPerformance({workerId: '{{worker.person_Id}}',workerName: '{{worker.name}}', reviewType: 1, returnState: 'master.workerPerformance'  })">{{worker.name}}</a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div ng-if="worker.task != ' Total' ">
+                                            <i class="glyphicon glyphicon-edit " ng-click="vm.requestExpert(worker.person_Id, worker.task_Id )" title="Move 10 tasks to Expert Queue"></i>
+
+                                            <a href="#" ui-sref="master.touches({ modifiedBy_Id: worker.person_Id, userType_Id: worker.task_Id })">
+                                                {{worker.task}}
+                                            </a>
+                                        </div>
+
+                                    </td>
+                                    <td align="right">{{worker.tasksWorker | number:0}}</td>
+                                    <td align="right">{{worker.rejected | number: 0}}</td>
+                                    <td align="right">{{worker.approvalRate | number:1}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <p></p>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <div class="panel-title">Tasks</div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="list-group">
+                            <table class="table table-condensed medText">
+                                <tr class="bgLight">
+                                    <td class="bold">Name</td>
+                                    <td class="bold"></td>
+                                    <td class="bold" align="right">Total</td>
+                                    <td class="bold" align="right">Rej</td>
+                                    <td class="bold" align="right">Apprv Rate</td>
+                                </tr>
+                                <tr ng-repeat="tsk in vm.data.tblTask  | orderBy: 'sorter'"
+                                    ng-click="vm.toggleDetail('tblTask', tsk)"
+                                    ng-show="tsk.worker == ' Total' || tsk.showme"
+                                    class="{{(tsk.showme) ? 'bgLight' : ''}}">
+                                    <td>
+                                        <div ng-if="tsk.worker == ' Total' ">
+                                            <i class="glyphicon {{(tsk.showDetail) ? 'glyphicon-minus' : 'glyphicon-plus'}} smallText"></i>
+                                            {{tsk.task}}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div ng-if="tsk.worker != ' Total' ">
+                                            {{tsk.worker}}
+                                        </div>
+                                    </td>
+                                    <td align="right">{{tsk.tasksWorker | number:0}}</td>
+                                    <td align="right">{{tsk.rejected | number: 0}}</td>
+                                    <td align="right">{{tsk.approvalRate | number:1}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+        <br />
+    </div>
+</div>
+

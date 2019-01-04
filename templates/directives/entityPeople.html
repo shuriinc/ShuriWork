@@ -1,0 +1,200 @@
+﻿
+<div class="panel panel-warning">
+    <div class="panel-heading">
+        <h4 class="panel-title">{{wordFor("People")}}</h4>
+    </div>
+    <div class="panel-body" ng-if="isUpdate">
+        <div class="panel panel-default">
+            <div class="panel-body bg-warning">
+                <div class="row">
+                    <div class="col-xs-6 ">
+                        <h5>Existing Person</h5>
+                        <input id="inputAdd" ng-model="addString" type="text" class="form-control" placeholder="Search by lastname, firstname"
+                               onmouseup="this.select();" ng-focus="resetHideResults()" ng-keyup="keyPressedAdd($event, this)" />
+
+                        <div class="list-group" ng-if="showResults;">
+                            <div ng-repeat="result in results | orderBy: ['sorter','name']">
+                                <div class="row {{result.cssClass}} text-nowrap"
+                                     ng-mouseover="result.hover=true;"
+                                     ng-mouseout="result.hover=false;">
+                                    <div class="col-xs-1" ng-click="itemSelected(result);">
+                                        <span ng-if="result.imageUrl && result.imageUrl != ''" style="width:28px">
+                                            <img ng-src="{{result.imageUrl}}" width="28" height="28" />
+                                        </span>
+                                        <span ng-if="result.imageUrl == ''" style="width:28px; height:28px;">&nbsp;</span>
+
+                                    </div>
+                                    <div class="col-xs-7" ng-click="itemSelected(result);">
+                                        <span ng-bind-html="result.htmlname"></span>
+
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <button type="button" class="btn btn-sm btn-primary" ng-click="lookup(result.id)">
+                                            <span class="glyphicon glyphicon glyphicon-zoom-in"></span>
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-xs-6">
+                        <div ng-if="!showLookup">
+                            <h5>New  Person</h5>
+                            <input type="text" class="form-control formField" placeholder='{{wordFor("Last Name")}}' ng-model="newperson.lastname" ng-focus="syncAddString()" />
+                            <input type="text" class="form-control formField" placeholder='{{wordFor("First Name")}}' ng-model="newperson.firstname" />
+                            <input type="text" class="form-control formField" placeholder='{{wordFor("Middle Name")}}' ng-model="newperson.middlename" />
+                            <div class="text-center" style="width:100%;padding-top:6px;">
+                                <button type="button" class="btn btn-warning" ng-click="addNew()">
+                                    <span class="glyphicon glyphicon-plus"></span> {{wordFor("Add New")}} {{wordFor("Person")}} {{scope.addString}}
+                                </button>
+
+                            </div>
+
+                        </div>
+                        <div ng-if="showLookup" class="bg-info itemPadding">
+                            <div class="form-group row">
+
+                                <div class="col-xs-10 text-center">
+                                    <h4>  {{person.prefix}} {{person.firstname}} {{person.middlename}} {{person.lastname}}</h4>
+                                </div>
+                                <div class="col-xs-2 text-right ">
+                                    <button type="button" class="btn btn-danger glyphicon glyphicon-remove" ng-click="closeLookup()"></button>
+
+                                </div>
+                            </div>
+                            <div class="form-group row">
+
+                                <div class="col-xs-12">
+                                    <div class="itemLabel">Orgs</div>
+                                    <div class="medText" ng-repeat="org in person.groups">{{org.name}}  {{org.title}} {{org.jsStartDt | date: 'shortDate'}} <span ng-if="org.endDt">- {{org.jsEndDt | date: 'shortDate'}}</span></div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+
+                                <div class="col-xs-12">
+                                    <div class="itemLabel">Summary Description</div>
+                                    <div class="medText">{{person.description}}</div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+
+                                <div class="col-xs-12">
+                                    <img ng-if="person.imageUrl" ng-src="{{person.imageUrl}}" />
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-hover " ng-if="(entity.people.length == 0)">
+        <tr class="bg-warning">
+            <th>
+                No people found for {{entity.name}}
+            </th>
+        </tr>
+    </table>
+    <table class="table table-hover " ng-if="(entity.people.length > 0)">
+        <tr class="warning">
+            <td colspan="2"><strong>Existing - Not Verified</strong></td>
+            <td class="text-right small" ng-if="orderByField == 'name'"><a ng-click="setOrderBy('firstname')">Sort: First name</a></td>
+            <td class="text-right small" ng-if="orderByField != 'name'"><a ng-click="setOrderBy('name')">Sort: Last name</a></td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr ng-repeat="person in entity.people | filter: {status: 'existing'} | orderBy: orderByField" class="{{(person.tenureOver) ? 'bgLight': 'bg-warning'}}">
+            <td>{{person.name}}<br /><span class="itemLabel">{{person.tenureMsg}}</span></td>
+            <td ng-if="isUpdate" class="fakelink" ng-click="person.status='verified'">
+                <!--<div class="btn-group btn-group-sm">-->
+                <div class="btn btn-sm btn-success" style="width:125px;">
+                    <i class="glyphicon glyphicon-arrow-down"></i>
+                    <span>Verify</span>
+                </div>
+                <!--</div>-->
+
+
+            </td>
+            <td ng-if="isUpdate && !person.tenureOver" class="fakelink" ng-click="removePerson(person)" align="right">
+                <div class="btn btn-sm btn-danger" style="width:125px;">
+                    <i class="glyphicon glyphicon-remove"></i>
+                    <span>Former</span>
+                </div>
+            </td>
+            <td ng-if="person.tenureOver">
+                &nbsp;
+            </td>
+            <td>
+
+                <i class="glyphicon glyphicon-trash " style="padding-top:10px;color:#d70303" ng-click="deletePerson(person)"></i>
+            </td>
+
+        </tr>
+
+
+        <tr>
+            <td colspan="4">&nbsp;</td>
+        </tr>
+
+        <tr class="info">
+            <td colspan="4"><strong>New Additions</strong></td>
+        </tr>
+        <tr ng-repeat="person in entity.people | filter: {status: 'addnew'} | orderBy: orderByField" class="bg-info">
+            <td colspan="3">{{person.name}} <span ng-if="person.tenureOver" class="itemLabel">{{person.tenureMsg}}</span></td>
+            <td ng-if="isUpdate" class="fakelink" ng-click="resetPerson(person)" align="right">
+                <div class="btn btn-sm btn-default" style="width:125px;">
+                    <i class="glyphicon glyphicon-arrow-up"></i>
+                    <span>Undo</span>
+                </div>
+            </td>
+        </tr>
+
+        <tr class="danger">
+            <td colspan="4"><strong>To Be Former</strong></td>
+        </tr>
+        <tr ng-repeat="person in entity.people | filter: {status: 'deleted'} | orderBy: orderByField" class="bg-danger">
+            <td colspan="3">{{person.name}} <span ng-if="person.tenureOver" class="itemLabel">{{person.tenureMsg}}</span></td>
+            <td ng-if="isUpdate" class="fakelink" ng-click="resetPerson(person)" align="right">
+                <div class="btn btn-sm btn-default" style="width:125px;">
+                    <i class="glyphicon glyphicon-arrow-up"></i>
+                    <span>Undo</span>
+                </div>
+            </td>
+        </tr>
+
+        <tr class="success">
+            <td colspan="4"><strong>Verified</strong></td>
+        </tr>
+        <tr ng-repeat="person in entity.people | filter: {status: 'verified'} | orderBy: orderByField" class="{{(person.tenureOver) ? 'bgLight': 'bg-success'}}">
+            <td colspan="3">{{person.name}} <span ng-if="person.tenureOver" class="itemLabel">{{person.tenureMsg}}</span></td>
+            <td ng-if="isUpdate" class="fakelink" ng-click="resetPerson(person)" align="right">
+                <div class="btn btn-sm btn-default" style="width:125px;">
+                    <i class="glyphicon glyphicon-arrow-up"></i>
+                    <span>Undo</span>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+
+    <script type="text/ng-template" id="modalPerson.html">
+        <div class="modal-header">
+            <h3 class="modal-title">I'm a modal!</h3>
+        </div>
+        <div class="modal-body">
+            hello world
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="closeModal()">Close</button>
+        </div>
+    </script>
+
+
+</div>
+

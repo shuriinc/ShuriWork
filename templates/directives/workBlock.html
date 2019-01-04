@@ -1,0 +1,61 @@
+﻿    
+<div ng-class="wellClass()" ng-if="!showSpinner">
+        <div class="form-group row" ng-if="showComments">
+            <div class="col-xs-6">
+                <div class="textRevBold">{{wordFor("Worker")}}-{{wordFor("Reviewer")}}  {{wordFor("Comments")}}</div>
+            </div>
+            <div class="col-xs-6 text-right" ng-if="reviewType == 1">
+                <div class=" textRevBold">{{wordFor("Worker")}}:  {{touch.createdByName}} {{workerTime}} on {{touch.createdDt | date: 'shortDate'}}</div>
+            </div>
+            <div class="col-xs-6 text-right" ng-if="reviewType == 0 && touch.modifiedByName.toLowerCase() != 'no one'">
+                <div class=" textRevBold">{{wordFor("Reviewer")}}:  {{touch.modifiedByName}}</div>
+            </div>
+            <div class="col-xs-6 text-right" ng-if="reviewType == 2">
+                <div class=" textRevBold">{{wordFor("Worker")}}:  {{touch.createdByName}} {{workerTime}} on {{touch.createdDt | date: 'shortDate'}}</div>
+              <div class=" textRevBold">{{wordFor("Reviewer")}}:  {{touch.modifiedByName}}</div>
+            </div>
+        </div>
+        <div class="form-group row" ng-if="showComments">
+            <div class="col-xs-12">
+                <textarea class="form-control" ng-change="commentsChanged(reviewerComments)" placeholder="" ng-model="reviewerComments" rows="4"></textarea>
+            </div>
+        </div>
+        <div ng-show="reviewType == 0">
+            <div class="row">
+                <div class="col-xs-4 col-xs-offset-1">
+                    <button type="button" class="btn btn-block btn-warning" ng-click="cancel()">
+                        <span class="glyphicon glyphicon-arrow-left"></span> {{isSmallWidth ? '' : ' Return'}}
+                    </button>
+
+                </div>
+                <div class="col-xs-4 col-xs-offset-2">
+                    <button type="button" class="btn btn-block btn-primary" ng-click="edit()" ng-disabled="!modelObj">
+                        <span class="glyphicon glyphicon-ok"></span> {{isSmallWidth ? '' : ' Submit'}}
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <div ng-show="reviewType != 0" class="row">
+            <div class="col-xs-4 ">
+                <button type="button" class="btn btn-block btn-warning" ng-click="cancel()">
+                    <span class="glyphicon glyphicon-arrow-left" ></span>{{isSmallWidth ? '' : ' Return'}}
+                </button>
+            </div>
+            <div class="col-xs-4">
+                <button type="button" class="btn btn-block btn-danger" ng-click="review(false)">
+                    <span class="glyphicon glyphicon-remove"></span> {{isSmallWidth ? '' : ' Reject'}}
+                </button>
+            </div>
+            <div class="col-xs-4">
+                <button type="button" class="btn btn-block btn-success" ng-click="review(true)">
+                    <span class="glyphicon glyphicon-ok"></span> {{isSmallWidth ? '' : ' Approve'}}
+                </button>
+            </div>
+        </div>
+    <div>
+    </div>
+</div>
+    <sspinner ng-if="showSpinner" text="{{spinnerText}}" padding="40"></sspinner>
+<div style="padding-bottom:20px">&nbsp;</div>

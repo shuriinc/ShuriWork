@@ -1,0 +1,36 @@
+﻿<div ng-controller="MasterCtrl as vmMaster">
+    <div  style="color:#cccccc; background-color:#333333; position:absolute; top: 0px; width:100%; height:50px;  line-height:38px;  display: inline-block; vertical-align:middle; padding:6px;">
+        <img src="img/LogoWorksite.png" height="38" alt="Shuri" ui-sref="master.home" /> <span style="font-size:1.3em; color:#eeeeee" ui-sref="master.home" >{{vmMaster.sitename}}</span>
+        <div style="position:relative;float:right;" class="medText fakelink">
+            <span ng-if="vmMaster.isLoggedIn" ui-sref="master.account" >Account&nbsp;&nbsp; &nbsp; </span>
+            <span ng-if="vmMaster.isLoggedIn" ng-click="vmMaster.logout()">Log Out </span>
+            <span ng-if="!vmMaster.isLoggedIn" ui-sref="master.login">Log In / Sign Up </span>
+
+        </div>
+    </div>
+     <div class="row bg-danger" ng-if="vmMaster.showServer">
+    </div>
+    <div class="container-fluid" ui-view></div>
+
+    <div class="footer">
+        <div class="row">
+            <div class="col-xs-12 h3">
+                {{vmMaster.sitename}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 ">
+                    <div >{{vmMaster.dataSource.name}}</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 smallText" ui-sref="master.import">
+                <br />©2014-{{vmMaster.year}} Shuri, Inc.  All rights reserved. Version {{vmMaster.version}}
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
